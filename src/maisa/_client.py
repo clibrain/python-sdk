@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
@@ -50,7 +50,6 @@ class Maisa(SyncAPIClient):
     models: resources.Models
     kpu: resources.Kpu
     file_interpreter: resources.FileInterpreter
-    mainet: resources.Mainet
     with_raw_response: MaisaWithRawResponse
     with_streaming_response: MaisaWithStreamedResponse
 
@@ -66,7 +65,9 @@ class Maisa(SyncAPIClient):
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
-        # Configure a custom httpx client. See the [httpx documentation](https://www.python-httpx.org/api/#client) for more details.
+        # Configure a custom httpx client.
+        # We provide a `DefaultHttpxClient` class that you can pass to retain the default values we use for `limits`, `timeout` & `follow_redirects`.
+        # See the [httpx documentation](https://www.python-httpx.org/api/#client) for more details.
         http_client: httpx.Client | None = None,
         # Enable or disable schema validation for data returned by the API.
         # When enabled an error APIResponseValidationError is raised
@@ -110,7 +111,6 @@ class Maisa(SyncAPIClient):
         self.models = resources.Models(self)
         self.kpu = resources.Kpu(self)
         self.file_interpreter = resources.FileInterpreter(self)
-        self.mainet = resources.Mainet(self)
         self.with_raw_response = MaisaWithRawResponse(self)
         self.with_streaming_response = MaisaWithStreamedResponse(self)
 
@@ -224,7 +224,6 @@ class AsyncMaisa(AsyncAPIClient):
     models: resources.AsyncModels
     kpu: resources.AsyncKpu
     file_interpreter: resources.AsyncFileInterpreter
-    mainet: resources.AsyncMainet
     with_raw_response: AsyncMaisaWithRawResponse
     with_streaming_response: AsyncMaisaWithStreamedResponse
 
@@ -240,7 +239,9 @@ class AsyncMaisa(AsyncAPIClient):
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
-        # Configure a custom httpx client. See the [httpx documentation](https://www.python-httpx.org/api/#asyncclient) for more details.
+        # Configure a custom httpx client.
+        # We provide a `DefaultAsyncHttpxClient` class that you can pass to retain the default values we use for `limits`, `timeout` & `follow_redirects`.
+        # See the [httpx documentation](https://www.python-httpx.org/api/#asyncclient) for more details.
         http_client: httpx.AsyncClient | None = None,
         # Enable or disable schema validation for data returned by the API.
         # When enabled an error APIResponseValidationError is raised
@@ -284,7 +285,6 @@ class AsyncMaisa(AsyncAPIClient):
         self.models = resources.AsyncModels(self)
         self.kpu = resources.AsyncKpu(self)
         self.file_interpreter = resources.AsyncFileInterpreter(self)
-        self.mainet = resources.AsyncMainet(self)
         self.with_raw_response = AsyncMaisaWithRawResponse(self)
         self.with_streaming_response = AsyncMaisaWithStreamedResponse(self)
 
@@ -399,7 +399,6 @@ class MaisaWithRawResponse:
         self.models = resources.ModelsWithRawResponse(client.models)
         self.kpu = resources.KpuWithRawResponse(client.kpu)
         self.file_interpreter = resources.FileInterpreterWithRawResponse(client.file_interpreter)
-        self.mainet = resources.MainetWithRawResponse(client.mainet)
 
 
 class AsyncMaisaWithRawResponse:
@@ -408,7 +407,6 @@ class AsyncMaisaWithRawResponse:
         self.models = resources.AsyncModelsWithRawResponse(client.models)
         self.kpu = resources.AsyncKpuWithRawResponse(client.kpu)
         self.file_interpreter = resources.AsyncFileInterpreterWithRawResponse(client.file_interpreter)
-        self.mainet = resources.AsyncMainetWithRawResponse(client.mainet)
 
 
 class MaisaWithStreamedResponse:
@@ -417,7 +415,6 @@ class MaisaWithStreamedResponse:
         self.models = resources.ModelsWithStreamingResponse(client.models)
         self.kpu = resources.KpuWithStreamingResponse(client.kpu)
         self.file_interpreter = resources.FileInterpreterWithStreamingResponse(client.file_interpreter)
-        self.mainet = resources.MainetWithStreamingResponse(client.mainet)
 
 
 class AsyncMaisaWithStreamedResponse:
@@ -426,7 +423,6 @@ class AsyncMaisaWithStreamedResponse:
         self.models = resources.AsyncModelsWithStreamingResponse(client.models)
         self.kpu = resources.AsyncKpuWithStreamingResponse(client.kpu)
         self.file_interpreter = resources.AsyncFileInterpreterWithStreamingResponse(client.file_interpreter)
-        self.mainet = resources.AsyncMainetWithStreamingResponse(client.mainet)
 
 
 Client = Maisa

@@ -1,12 +1,13 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
-from typing import List, Mapping, cast
+from typing import List, Mapping, Optional, cast
+from typing_extensions import Literal
 
 import httpx
 
-from ..types import KpuRunResponse, kpu_run_params
+from ..types import kpu_run_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes
 from .._utils import (
     extract_files,
@@ -45,15 +46,31 @@ class Kpu(SyncAPIResource):
         explain_steps: bool | NotGiven = NOT_GIVEN,
         retries: int | NotGiven = NOT_GIVEN,
         file: List[FileTypes] | NotGiven = NOT_GIVEN,
+        reasoner_model: Optional[
+            Literal[
+                "gpt-4-turbo",
+                "mistral-large",
+                "gpt-3.5-turbo",
+                "claude-3-sonnet",
+                "claude-3-opus",
+                "gemini-pro",
+                "azure/gpt-4-turbo",
+                "openai/gpt-4-turbo",
+            ]
+        ]
+        | NotGiven = NOT_GIVEN,
+        reasoner_prompt: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> KpuRunResponse:
+    ) -> object:
         """
         Executes the KPU in sync, sending the response when the KPU execution is done.
+        The KPU beta is currently available for selected users. Submit your request to
+        be granted access: https://maisa.ai
 
         Args:
           query: User text with the query or request to be commanded to the KPU.
@@ -79,6 +96,8 @@ class Kpu(SyncAPIResource):
             {
                 "query": query,
                 "file": file,
+                "reasoner_model": reasoner_model,
+                "reasoner_prompt": reasoner_prompt,
             }
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["file", "<array>"]])
@@ -104,7 +123,7 @@ class Kpu(SyncAPIResource):
                     kpu_run_params.KpuRunParams,
                 ),
             ),
-            cast_to=KpuRunResponse,
+            cast_to=object,
         )
 
 
@@ -124,15 +143,31 @@ class AsyncKpu(AsyncAPIResource):
         explain_steps: bool | NotGiven = NOT_GIVEN,
         retries: int | NotGiven = NOT_GIVEN,
         file: List[FileTypes] | NotGiven = NOT_GIVEN,
+        reasoner_model: Optional[
+            Literal[
+                "gpt-4-turbo",
+                "mistral-large",
+                "gpt-3.5-turbo",
+                "claude-3-sonnet",
+                "claude-3-opus",
+                "gemini-pro",
+                "azure/gpt-4-turbo",
+                "openai/gpt-4-turbo",
+            ]
+        ]
+        | NotGiven = NOT_GIVEN,
+        reasoner_prompt: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> KpuRunResponse:
+    ) -> object:
         """
         Executes the KPU in sync, sending the response when the KPU execution is done.
+        The KPU beta is currently available for selected users. Submit your request to
+        be granted access: https://maisa.ai
 
         Args:
           query: User text with the query or request to be commanded to the KPU.
@@ -158,6 +193,8 @@ class AsyncKpu(AsyncAPIResource):
             {
                 "query": query,
                 "file": file,
+                "reasoner_model": reasoner_model,
+                "reasoner_prompt": reasoner_prompt,
             }
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["file", "<array>"]])
@@ -183,7 +220,7 @@ class AsyncKpu(AsyncAPIResource):
                     kpu_run_params.KpuRunParams,
                 ),
             ),
-            cast_to=KpuRunResponse,
+            cast_to=object,
         )
 
 

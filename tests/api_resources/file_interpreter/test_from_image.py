@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
@@ -9,7 +9,6 @@ import pytest
 
 from maisa import Maisa, AsyncMaisa
 from tests.utils import assert_matches_type
-from maisa.types.file_interpreter import FromImage
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -22,7 +21,7 @@ class TestFromImage:
         from_image = client.file_interpreter.from_image.create(
             file=b"raw file contents",
         )
-        assert_matches_type(FromImage, from_image, path=["response"])
+        assert_matches_type(object, from_image, path=["response"])
 
     @parametrize
     def test_raw_response_create(self, client: Maisa) -> None:
@@ -33,7 +32,7 @@ class TestFromImage:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         from_image = response.parse()
-        assert_matches_type(FromImage, from_image, path=["response"])
+        assert_matches_type(object, from_image, path=["response"])
 
     @parametrize
     def test_streaming_response_create(self, client: Maisa) -> None:
@@ -44,7 +43,7 @@ class TestFromImage:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             from_image = response.parse()
-            assert_matches_type(FromImage, from_image, path=["response"])
+            assert_matches_type(object, from_image, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -57,7 +56,7 @@ class TestAsyncFromImage:
         from_image = await async_client.file_interpreter.from_image.create(
             file=b"raw file contents",
         )
-        assert_matches_type(FromImage, from_image, path=["response"])
+        assert_matches_type(object, from_image, path=["response"])
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMaisa) -> None:
@@ -68,7 +67,7 @@ class TestAsyncFromImage:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         from_image = await response.parse()
-        assert_matches_type(FromImage, from_image, path=["response"])
+        assert_matches_type(object, from_image, path=["response"])
 
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMaisa) -> None:
@@ -79,6 +78,6 @@ class TestAsyncFromImage:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             from_image = await response.parse()
-            assert_matches_type(FromImage, from_image, path=["response"])
+            assert_matches_type(object, from_image, path=["response"])
 
         assert cast(Any, response.is_closed) is True

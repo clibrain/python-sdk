@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from .models import (
     Models,
@@ -7,14 +7,6 @@ from .models import (
     AsyncModelsWithRawResponse,
     ModelsWithStreamingResponse,
     AsyncModelsWithStreamingResponse,
-)
-from .rerank import (
-    RerankResource,
-    AsyncRerankResource,
-    RerankResourceWithRawResponse,
-    AsyncRerankResourceWithRawResponse,
-    RerankResourceWithStreamingResponse,
-    AsyncRerankResourceWithStreamingResponse,
 )
 from .embeddings import (
     Embeddings,
@@ -32,12 +24,6 @@ __all__ = [
     "AsyncEmbeddingsWithRawResponse",
     "EmbeddingsWithStreamingResponse",
     "AsyncEmbeddingsWithStreamingResponse",
-    "RerankResource",
-    "AsyncRerankResource",
-    "RerankResourceWithRawResponse",
-    "AsyncRerankResourceWithRawResponse",
-    "RerankResourceWithStreamingResponse",
-    "AsyncRerankResourceWithStreamingResponse",
     "Models",
     "AsyncModels",
     "ModelsWithRawResponse",
