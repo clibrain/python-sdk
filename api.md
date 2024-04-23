@@ -34,18 +34,6 @@ Methods:
 
 - <code title="post /v1/models/embeddings">client.models.embeddings.<a href="./src/maisa/resources/models/embeddings.py">create</a>(\*\*<a href="src/maisa/types/models/embedding_create_params.py">params</a>) -> <a href="./src/maisa/types/models/embeddings.py">Embeddings</a></code>
 
-## RerankResource
-
-Types:
-
-```python
-from maisa.types.models import Rerank
-```
-
-Methods:
-
-- <code title="post /v1/models/rerank">client.models.rerank.<a href="./src/maisa/resources/models/rerank.py">create</a>(\*\*<a href="src/maisa/types/models/rerank_create_params.py">params</a>) -> <a href="./src/maisa/types/models/rerank.py">Rerank</a></code>
-
 # Kpu
 
 Types:
@@ -56,7 +44,7 @@ from maisa.types import KpuRunResponse
 
 Methods:
 
-- <code title="post /v1/kpu/run">client.kpu.<a href="./src/maisa/resources/kpu.py">run</a>(\*\*<a href="src/maisa/types/kpu_run_params.py">params</a>) -> <a href="./src/maisa/types/kpu_run_response.py">KpuRunResponse</a></code>
+- <code title="post /v1/kpu/run">client.kpu.<a href="./src/maisa/resources/kpu.py">run</a>(\*\*<a href="src/maisa/types/kpu_run_params.py">params</a>) -> <a href="./src/maisa/types/kpu_run_response.py">object</a></code>
 
 # FileInterpreter
 
@@ -71,6 +59,18 @@ from maisa.types.file_interpreter import FromPdfCreateResponse
 Methods:
 
 - <code title="post /v1/file-interpreter/from-pdf">client.file_interpreter.from_pdf.<a href="./src/maisa/resources/file_interpreter/from_pdf.py">create</a>(\*\*<a href="src/maisa/types/file_interpreter/from_pdf_create_params.py">params</a>) -> <a href="./src/maisa/types/file_interpreter/from_pdf_create_response.py">object</a></code>
+
+## FromPdfScanned
+
+Types:
+
+```python
+from maisa.types.file_interpreter import FromPdfScannedCreateResponse
+```
+
+Methods:
+
+- <code title="post /v1/file-interpreter/from-pdf-scanned">client.file_interpreter.from_pdf_scanned.<a href="./src/maisa/resources/file_interpreter/from_pdf_scanned.py">create</a>(\*\*<a href="src/maisa/types/file_interpreter/from_pdf_scanned_create_params.py">params</a>) -> <a href="./src/maisa/types/file_interpreter/from_pdf_scanned_create_response.py">object</a></code>
 
 ## FromDocx
 
@@ -96,17 +96,17 @@ Methods:
 
 - <code title="post /v1/file-interpreter/from-html">client.file_interpreter.from_html.<a href="./src/maisa/resources/file_interpreter/from_html.py">create</a>(\*\*<a href="src/maisa/types/file_interpreter/from_html_create_params.py">params</a>) -> <a href="./src/maisa/types/file_interpreter/from_html_create_response.py">object</a></code>
 
-## FromImageResource
+## FromImage
 
 Types:
 
 ```python
-from maisa.types.file_interpreter import FromImage
+from maisa.types.file_interpreter import FromImageCreateResponse
 ```
 
 Methods:
 
-- <code title="post /v1/file-interpreter/from-image">client.file_interpreter.from_image.<a href="./src/maisa/resources/file_interpreter/from_image.py">create</a>(\*\*<a href="src/maisa/types/file_interpreter/from_image_create_params.py">params</a>) -> <a href="./src/maisa/types/file_interpreter/from_image.py">FromImage</a></code>
+- <code title="post /v1/file-interpreter/from-image">client.file_interpreter.from_image.<a href="./src/maisa/resources/file_interpreter/from_image.py">create</a>(\*\*<a href="src/maisa/types/file_interpreter/from_image_create_params.py">params</a>) -> <a href="./src/maisa/types/file_interpreter/from_image_create_response.py">object</a></code>
 
 ## FromAudio
 
@@ -119,17 +119,3 @@ from maisa.types.file_interpreter import FromAudioCreateResponse
 Methods:
 
 - <code title="post /v1/file-interpreter/from-audio">client.file_interpreter.from_audio.<a href="./src/maisa/resources/file_interpreter/from_audio.py">create</a>(\*\*<a href="src/maisa/types/file_interpreter/from_audio_create_params.py">params</a>) -> <a href="./src/maisa/types/file_interpreter/from_audio_create_response.py">object</a></code>
-
-# Mainet
-
-## SearchResource
-
-Types:
-
-```python
-from maisa.types.mainet import Search
-```
-
-Methods:
-
-- <code title="post /v1/mainet/search">client.mainet.search.<a href="./src/maisa/resources/mainet/search.py">create</a>(\*\*<a href="src/maisa/types/mainet/search_create_params.py">params</a>) -> <a href="./src/maisa/types/mainet/search.py">Search</a></code>

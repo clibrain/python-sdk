@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from .from_pdf import (
     FromPdf,
@@ -33,12 +33,12 @@ from .from_audio import (
     AsyncFromAudioWithStreamingResponse,
 )
 from .from_image import (
-    FromImageResource,
-    AsyncFromImageResource,
-    FromImageResourceWithRawResponse,
-    AsyncFromImageResourceWithRawResponse,
-    FromImageResourceWithStreamingResponse,
-    AsyncFromImageResourceWithStreamingResponse,
+    FromImage,
+    AsyncFromImage,
+    FromImageWithRawResponse,
+    AsyncFromImageWithRawResponse,
+    FromImageWithStreamingResponse,
+    AsyncFromImageWithStreamingResponse,
 )
 from .file_interpreter import (
     FileInterpreter,
@@ -48,6 +48,14 @@ from .file_interpreter import (
     FileInterpreterWithStreamingResponse,
     AsyncFileInterpreterWithStreamingResponse,
 )
+from .from_pdf_scanned import (
+    FromPdfScanned,
+    AsyncFromPdfScanned,
+    FromPdfScannedWithRawResponse,
+    AsyncFromPdfScannedWithRawResponse,
+    FromPdfScannedWithStreamingResponse,
+    AsyncFromPdfScannedWithStreamingResponse,
+)
 
 __all__ = [
     "FromPdf",
@@ -56,6 +64,12 @@ __all__ = [
     "AsyncFromPdfWithRawResponse",
     "FromPdfWithStreamingResponse",
     "AsyncFromPdfWithStreamingResponse",
+    "FromPdfScanned",
+    "AsyncFromPdfScanned",
+    "FromPdfScannedWithRawResponse",
+    "AsyncFromPdfScannedWithRawResponse",
+    "FromPdfScannedWithStreamingResponse",
+    "AsyncFromPdfScannedWithStreamingResponse",
     "FromDocx",
     "AsyncFromDocx",
     "FromDocxWithRawResponse",
@@ -68,12 +82,12 @@ __all__ = [
     "AsyncFromHTMLWithRawResponse",
     "FromHTMLWithStreamingResponse",
     "AsyncFromHTMLWithStreamingResponse",
-    "FromImageResource",
-    "AsyncFromImageResource",
-    "FromImageResourceWithRawResponse",
-    "AsyncFromImageResourceWithRawResponse",
-    "FromImageResourceWithStreamingResponse",
-    "AsyncFromImageResourceWithStreamingResponse",
+    "FromImage",
+    "AsyncFromImage",
+    "FromImageWithRawResponse",
+    "AsyncFromImageWithRawResponse",
+    "FromImageWithStreamingResponse",
+    "AsyncFromImageWithStreamingResponse",
     "FromAudio",
     "AsyncFromAudio",
     "FromAudioWithRawResponse",
