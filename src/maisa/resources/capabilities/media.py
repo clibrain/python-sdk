@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
@@ -70,7 +70,7 @@ class Media(SyncAPIResource):
 
         This endpoint supports
         an additional field `model` documented in this url:
-        https://dash.readme.com/project/clibrain-platform-api/v1.0/docs/capabilities-with-media-via-json-config
+        https://docs.maisa.ai/docs/capabilities-with-media-via-json-config
 
         Args:
           lang: The language of the output. If not provided, the language used will be the same
@@ -174,8 +174,7 @@ class Media(SyncAPIResource):
 
         The text is analyzed and the variables are
         extracted. This endpoint supports an additional field `model` documented in this
-        url:
-        https://dash.readme.com/project/clibrain-platform-api/v1.0/docs/capabilities-with-media-via-json-config
+        url: https://docs.maisa.ai/docs/capabilities-with-media-via-json-config
 
         Args:
           lang: The language of the output. If not provided, the language used will be the same
@@ -266,7 +265,7 @@ class Media(SyncAPIResource):
 
         This endpoint supports an additional field `model`
         documented in this url:
-        https://dash.readme.com/project/clibrain-platform-api/v1.0/docs/capabilities-with-media-via-json-config
+        https://docs.maisa.ai/docs/capabilities-with-media-via-json-config
 
         Args:
           format: Text Summary Request Format.
@@ -351,7 +350,7 @@ class AsyncMedia(AsyncAPIResource):
 
         This endpoint supports
         an additional field `model` documented in this url:
-        https://dash.readme.com/project/clibrain-platform-api/v1.0/docs/capabilities-with-media-via-json-config
+        https://docs.maisa.ai/docs/capabilities-with-media-via-json-config
 
         Args:
           lang: The language of the output. If not provided, the language used will be the same
@@ -455,8 +454,7 @@ class AsyncMedia(AsyncAPIResource):
 
         The text is analyzed and the variables are
         extracted. This endpoint supports an additional field `model` documented in this
-        url:
-        https://dash.readme.com/project/clibrain-platform-api/v1.0/docs/capabilities-with-media-via-json-config
+        url: https://docs.maisa.ai/docs/capabilities-with-media-via-json-config
 
         Args:
           lang: The language of the output. If not provided, the language used will be the same
@@ -547,7 +545,7 @@ class AsyncMedia(AsyncAPIResource):
 
         This endpoint supports an additional field `model`
         documented in this url:
-        https://dash.readme.com/project/clibrain-platform-api/v1.0/docs/capabilities-with-media-via-json-config
+        https://docs.maisa.ai/docs/capabilities-with-media-via-json-config
 
         Args:
           format: Text Summary Request Format.

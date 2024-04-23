@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
@@ -24,19 +24,19 @@ from ..._response import (
 from ..._base_client import (
     make_request_options,
 )
-from ...types.file_interpreter import FromImage, from_image_create_params
+from ...types.file_interpreter import from_image_create_params
 
-__all__ = ["FromImageResource", "AsyncFromImageResource"]
+__all__ = ["FromImage", "AsyncFromImage"]
 
 
-class FromImageResource(SyncAPIResource):
+class FromImage(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> FromImageResourceWithRawResponse:
-        return FromImageResourceWithRawResponse(self)
+    def with_raw_response(self) -> FromImageWithRawResponse:
+        return FromImageWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> FromImageResourceWithStreamingResponse:
-        return FromImageResourceWithStreamingResponse(self)
+    def with_streaming_response(self) -> FromImageWithStreamingResponse:
+        return FromImageWithStreamingResponse(self)
 
     def create(
         self,
@@ -48,7 +48,7 @@ class FromImageResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> FromImage:
+    ) -> object:
         """
         Interprets an image file and returns a description of the image.
 
@@ -75,18 +75,18 @@ class FromImageResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FromImage,
+            cast_to=object,
         )
 
 
-class AsyncFromImageResource(AsyncAPIResource):
+class AsyncFromImage(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncFromImageResourceWithRawResponse:
-        return AsyncFromImageResourceWithRawResponse(self)
+    def with_raw_response(self) -> AsyncFromImageWithRawResponse:
+        return AsyncFromImageWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncFromImageResourceWithStreamingResponse:
-        return AsyncFromImageResourceWithStreamingResponse(self)
+    def with_streaming_response(self) -> AsyncFromImageWithStreamingResponse:
+        return AsyncFromImageWithStreamingResponse(self)
 
     async def create(
         self,
@@ -98,7 +98,7 @@ class AsyncFromImageResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> FromImage:
+    ) -> object:
         """
         Interprets an image file and returns a description of the image.
 
@@ -125,12 +125,12 @@ class AsyncFromImageResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FromImage,
+            cast_to=object,
         )
 
 
-class FromImageResourceWithRawResponse:
-    def __init__(self, from_image: FromImageResource) -> None:
+class FromImageWithRawResponse:
+    def __init__(self, from_image: FromImage) -> None:
         self._from_image = from_image
 
         self.create = to_raw_response_wrapper(
@@ -138,8 +138,8 @@ class FromImageResourceWithRawResponse:
         )
 
 
-class AsyncFromImageResourceWithRawResponse:
-    def __init__(self, from_image: AsyncFromImageResource) -> None:
+class AsyncFromImageWithRawResponse:
+    def __init__(self, from_image: AsyncFromImage) -> None:
         self._from_image = from_image
 
         self.create = async_to_raw_response_wrapper(
@@ -147,8 +147,8 @@ class AsyncFromImageResourceWithRawResponse:
         )
 
 
-class FromImageResourceWithStreamingResponse:
-    def __init__(self, from_image: FromImageResource) -> None:
+class FromImageWithStreamingResponse:
+    def __init__(self, from_image: FromImage) -> None:
         self._from_image = from_image
 
         self.create = to_streamed_response_wrapper(
@@ -156,8 +156,8 @@ class FromImageResourceWithStreamingResponse:
         )
 
 
-class AsyncFromImageResourceWithStreamingResponse:
-    def __init__(self, from_image: AsyncFromImageResource) -> None:
+class AsyncFromImageWithStreamingResponse:
+    def __init__(self, from_image: AsyncFromImage) -> None:
         self._from_image = from_image
 
         self.create = async_to_streamed_response_wrapper(

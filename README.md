@@ -6,6 +6,8 @@ The Maisa Python library provides convenient access to the Maisa REST API from a
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
+It is generated with [Stainless](https://www.stainlessapi.com/).
+
 ## Documentation
 
 The REST API documentation can be found [on docs.maisa.ai](https://docs.maisa.ai/). The full API of this library can be found in [api.md](api.md).
@@ -22,13 +24,9 @@ pip install --pre maisa
 The full API of this library can be found in [api.md](api.md).
 
 ```python
-import os
 from maisa import Maisa
 
-client = Maisa(
-    # This is the default and can be omitted
-    api_key=os.environ.get("MAISA_API_KEY"),
-)
+client = Maisa()
 
 text_summary = client.capabilities.summarize(
     text="Example long text...",
@@ -46,14 +44,10 @@ so that your API Key is not stored in source control.
 Simply import `AsyncMaisa` instead of `Maisa` and use `await` with each API call:
 
 ```python
-import os
 import asyncio
 from maisa import AsyncMaisa
 
-client = AsyncMaisa(
-    # This is the default and can be omitted
-    api_key=os.environ.get("MAISA_API_KEY"),
-)
+client = AsyncMaisa()
 
 
 async def main() -> None:
@@ -70,10 +64,10 @@ Functionality between the synchronous and asynchronous clients is otherwise iden
 
 ## Using types
 
-Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typing.html#typing.TypedDict). Responses are [Pydantic models](https://docs.pydantic.dev), which provide helper methods for things like:
+Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typing.html#typing.TypedDict). Responses are [Pydantic models](https://docs.pydantic.dev) which also provide helper methods for things like:
 
-- Serializing back into JSON, `model.model_dump_json(indent=2, exclude_unset=True)`
-- Converting to a dictionary, `model.model_dump(exclude_unset=True)`
+- Serializing back into JSON, `model.to_json()`
+- Converting to a dictionary, `model.to_dict()`
 
 Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
 
@@ -235,6 +229,41 @@ with client.capabilities.with_streaming_response.summarize(
 
 The context manager is required so that the response will reliably be closed.
 
+### Making custom/undocumented requests
+
+This library is typed for convenient access the documented API.
+
+If you need to access undocumented endpoints, params, or response properties, the library can still be used.
+
+#### Undocumented endpoints
+
+To make requests to undocumented endpoints, you can make requests using `client.get`, `client.post`, and other
+http verbs. Options on the client will be respected (such as retries) will be respected when making this
+request.
+
+```py
+import httpx
+
+response = client.post(
+    "/foo",
+    cast_to=httpx.Response,
+    body={"my_param": True},
+)
+
+print(response.headers.get("x-foo"))
+```
+
+#### Undocumented request params
+
+If you want to explicitly send an extra param, you can do so with the `extra_query`, `extra_body`, and `extra_headers` request
+options.
+
+#### Undocumented response properties
+
+To access undocumented response properties, you can access the extra fields like `response.unknown_prop`. You
+can also get all the extra fields on the Pydantic model as a dict with
+[`response.model_extra`](https://docs.pydantic.dev/latest/api/base_model/#pydantic.BaseModel.model_extra).
+
 ### Configuring the HTTP client
 
 You can directly override the [httpx client](https://www.python-httpx.org/api/#client) to customize it for your use case, including:
@@ -244,13 +273,12 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 - Additional [advanced](https://www.python-httpx.org/advanced/#client-instances) functionality
 
 ```python
-import httpx
-from maisa import Maisa
+from maisa import Maisa, DefaultHttpxClient
 
 client = Maisa(
     # Or use the `MAISA_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
-    http_client=httpx.Client(
+    http_client=DefaultHttpxClient(
         proxies="http://my.test.proxy.example.com",
         transport=httpx.HTTPTransport(local_address="0.0.0.0"),
     ),

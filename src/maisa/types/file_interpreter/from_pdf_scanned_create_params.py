@@ -6,10 +6,10 @@ from typing_extensions import Literal, Required, TypedDict
 
 from ..._types import FileTypes
 
-__all__ = ["MediaExtractParams"]
+__all__ = ["FromPdfScannedCreateParams"]
 
 
-class MediaExtractParams(TypedDict, total=False):
+class FromPdfScannedCreateParams(TypedDict, total=False):
     file: Required[FileTypes]
 
     lang: Literal["en", "es", "pt", "fr", "de", "it", "nl", "sv", "pl", "ro"]
@@ -18,6 +18,9 @@ class MediaExtractParams(TypedDict, total=False):
     If not provided, the language used will be the same as the language of the text
     provided.
     """
+
+    max_pages: int
+    """The maximum number of pages to be extracted."""
 
     variable1_description: str
     """The description of the variable."""

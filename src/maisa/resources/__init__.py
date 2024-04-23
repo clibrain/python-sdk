@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from .kpu import (
     Kpu,
@@ -7,14 +7,6 @@ from .kpu import (
     AsyncKpuWithRawResponse,
     KpuWithStreamingResponse,
     AsyncKpuWithStreamingResponse,
-)
-from .mainet import (
-    Mainet,
-    AsyncMainet,
-    MainetWithRawResponse,
-    AsyncMainetWithRawResponse,
-    MainetWithStreamingResponse,
-    AsyncMainetWithStreamingResponse,
 )
 from .models import (
     Models,
@@ -66,10 +58,4 @@ __all__ = [
     "AsyncFileInterpreterWithRawResponse",
     "FileInterpreterWithStreamingResponse",
     "AsyncFileInterpreterWithStreamingResponse",
-    "Mainet",
-    "AsyncMainet",
-    "MainetWithRawResponse",
-    "AsyncMainetWithRawResponse",
-    "MainetWithStreamingResponse",
-    "AsyncMainetWithStreamingResponse",
 ]
