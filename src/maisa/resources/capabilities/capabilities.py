@@ -8,12 +8,12 @@ from typing_extensions import Literal
 import httpx
 
 from .media import (
-    Media,
-    AsyncMedia,
-    MediaWithRawResponse,
-    AsyncMediaWithRawResponse,
-    MediaWithStreamingResponse,
-    AsyncMediaWithStreamingResponse,
+    MediaResource,
+    AsyncMediaResource,
+    MediaResourceWithRawResponse,
+    AsyncMediaResourceWithRawResponse,
+    MediaResourceWithStreamingResponse,
+    AsyncMediaResourceWithStreamingResponse,
 )
 from ...types import capability_compare_params, capability_extract_params, capability_summarize_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
@@ -32,23 +32,25 @@ from ..._response import (
 from ..._base_client import (
     make_request_options,
 )
-from ...types.shared import TextSummary, TextExtractor, TextComparator
+from ...types.shared.text_summary import TextSummary
+from ...types.shared.text_extractor import TextExtractor
+from ...types.shared.text_comparator import TextComparator
 
-__all__ = ["Capabilities", "AsyncCapabilities"]
+__all__ = ["CapabilitiesResource", "AsyncCapabilitiesResource"]
 
 
-class Capabilities(SyncAPIResource):
+class CapabilitiesResource(SyncAPIResource):
     @cached_property
-    def media(self) -> Media:
-        return Media(self._client)
-
-    @cached_property
-    def with_raw_response(self) -> CapabilitiesWithRawResponse:
-        return CapabilitiesWithRawResponse(self)
+    def media(self) -> MediaResource:
+        return MediaResource(self._client)
 
     @cached_property
-    def with_streaming_response(self) -> CapabilitiesWithStreamingResponse:
-        return CapabilitiesWithStreamingResponse(self)
+    def with_raw_response(self) -> CapabilitiesResourceWithRawResponse:
+        return CapabilitiesResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> CapabilitiesResourceWithStreamingResponse:
+        return CapabilitiesResourceWithStreamingResponse(self)
 
     def compare(
         self,
@@ -215,18 +217,18 @@ class Capabilities(SyncAPIResource):
         )
 
 
-class AsyncCapabilities(AsyncAPIResource):
+class AsyncCapabilitiesResource(AsyncAPIResource):
     @cached_property
-    def media(self) -> AsyncMedia:
-        return AsyncMedia(self._client)
+    def media(self) -> AsyncMediaResource:
+        return AsyncMediaResource(self._client)
 
     @cached_property
-    def with_raw_response(self) -> AsyncCapabilitiesWithRawResponse:
-        return AsyncCapabilitiesWithRawResponse(self)
+    def with_raw_response(self) -> AsyncCapabilitiesResourceWithRawResponse:
+        return AsyncCapabilitiesResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncCapabilitiesWithStreamingResponse:
-        return AsyncCapabilitiesWithStreamingResponse(self)
+    def with_streaming_response(self) -> AsyncCapabilitiesResourceWithStreamingResponse:
+        return AsyncCapabilitiesResourceWithStreamingResponse(self)
 
     async def compare(
         self,
@@ -393,8 +395,8 @@ class AsyncCapabilities(AsyncAPIResource):
         )
 
 
-class CapabilitiesWithRawResponse:
-    def __init__(self, capabilities: Capabilities) -> None:
+class CapabilitiesResourceWithRawResponse:
+    def __init__(self, capabilities: CapabilitiesResource) -> None:
         self._capabilities = capabilities
 
         self.compare = to_raw_response_wrapper(
@@ -408,12 +410,12 @@ class CapabilitiesWithRawResponse:
         )
 
     @cached_property
-    def media(self) -> MediaWithRawResponse:
-        return MediaWithRawResponse(self._capabilities.media)
+    def media(self) -> MediaResourceWithRawResponse:
+        return MediaResourceWithRawResponse(self._capabilities.media)
 
 
-class AsyncCapabilitiesWithRawResponse:
-    def __init__(self, capabilities: AsyncCapabilities) -> None:
+class AsyncCapabilitiesResourceWithRawResponse:
+    def __init__(self, capabilities: AsyncCapabilitiesResource) -> None:
         self._capabilities = capabilities
 
         self.compare = async_to_raw_response_wrapper(
@@ -427,12 +429,12 @@ class AsyncCapabilitiesWithRawResponse:
         )
 
     @cached_property
-    def media(self) -> AsyncMediaWithRawResponse:
-        return AsyncMediaWithRawResponse(self._capabilities.media)
+    def media(self) -> AsyncMediaResourceWithRawResponse:
+        return AsyncMediaResourceWithRawResponse(self._capabilities.media)
 
 
-class CapabilitiesWithStreamingResponse:
-    def __init__(self, capabilities: Capabilities) -> None:
+class CapabilitiesResourceWithStreamingResponse:
+    def __init__(self, capabilities: CapabilitiesResource) -> None:
         self._capabilities = capabilities
 
         self.compare = to_streamed_response_wrapper(
@@ -446,12 +448,12 @@ class CapabilitiesWithStreamingResponse:
         )
 
     @cached_property
-    def media(self) -> MediaWithStreamingResponse:
-        return MediaWithStreamingResponse(self._capabilities.media)
+    def media(self) -> MediaResourceWithStreamingResponse:
+        return MediaResourceWithStreamingResponse(self._capabilities.media)
 
 
-class AsyncCapabilitiesWithStreamingResponse:
-    def __init__(self, capabilities: AsyncCapabilities) -> None:
+class AsyncCapabilitiesResourceWithStreamingResponse:
+    def __init__(self, capabilities: AsyncCapabilitiesResource) -> None:
         self._capabilities = capabilities
 
         self.compare = async_to_streamed_response_wrapper(
@@ -465,5 +467,5 @@ class AsyncCapabilitiesWithStreamingResponse:
         )
 
     @cached_property
-    def media(self) -> AsyncMediaWithStreamingResponse:
-        return AsyncMediaWithStreamingResponse(self._capabilities.media)
+    def media(self) -> AsyncMediaResourceWithStreamingResponse:
+        return AsyncMediaResourceWithStreamingResponse(self._capabilities.media)

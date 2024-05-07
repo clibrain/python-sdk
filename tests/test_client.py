@@ -17,7 +17,6 @@ from respx import MockRouter
 from pydantic import ValidationError
 
 from maisa import Maisa, AsyncMaisa, APIResponseValidationError
-from maisa._client import Maisa, AsyncMaisa
 from maisa._models import BaseModel, FinalRequestOptions
 from maisa._constants import RAW_RESPONSE_HEADER
 from maisa._exceptions import APIStatusError, APITimeoutError, APIResponseValidationError

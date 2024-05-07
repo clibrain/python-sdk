@@ -26,17 +26,17 @@ from ..._base_client import (
 )
 from ...types.file_interpreter import from_html_create_params
 
-__all__ = ["FromHTML", "AsyncFromHTML"]
+__all__ = ["FromHTMLResource", "AsyncFromHTMLResource"]
 
 
-class FromHTML(SyncAPIResource):
+class FromHTMLResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> FromHTMLWithRawResponse:
-        return FromHTMLWithRawResponse(self)
+    def with_raw_response(self) -> FromHTMLResourceWithRawResponse:
+        return FromHTMLResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> FromHTMLWithStreamingResponse:
-        return FromHTMLWithStreamingResponse(self)
+    def with_streaming_response(self) -> FromHTMLResourceWithStreamingResponse:
+        return FromHTMLResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -79,14 +79,14 @@ class FromHTML(SyncAPIResource):
         )
 
 
-class AsyncFromHTML(AsyncAPIResource):
+class AsyncFromHTMLResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncFromHTMLWithRawResponse:
-        return AsyncFromHTMLWithRawResponse(self)
+    def with_raw_response(self) -> AsyncFromHTMLResourceWithRawResponse:
+        return AsyncFromHTMLResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncFromHTMLWithStreamingResponse:
-        return AsyncFromHTMLWithStreamingResponse(self)
+    def with_streaming_response(self) -> AsyncFromHTMLResourceWithStreamingResponse:
+        return AsyncFromHTMLResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -129,8 +129,8 @@ class AsyncFromHTML(AsyncAPIResource):
         )
 
 
-class FromHTMLWithRawResponse:
-    def __init__(self, from_html: FromHTML) -> None:
+class FromHTMLResourceWithRawResponse:
+    def __init__(self, from_html: FromHTMLResource) -> None:
         self._from_html = from_html
 
         self.create = to_raw_response_wrapper(
@@ -138,8 +138,8 @@ class FromHTMLWithRawResponse:
         )
 
 
-class AsyncFromHTMLWithRawResponse:
-    def __init__(self, from_html: AsyncFromHTML) -> None:
+class AsyncFromHTMLResourceWithRawResponse:
+    def __init__(self, from_html: AsyncFromHTMLResource) -> None:
         self._from_html = from_html
 
         self.create = async_to_raw_response_wrapper(
@@ -147,8 +147,8 @@ class AsyncFromHTMLWithRawResponse:
         )
 
 
-class FromHTMLWithStreamingResponse:
-    def __init__(self, from_html: FromHTML) -> None:
+class FromHTMLResourceWithStreamingResponse:
+    def __init__(self, from_html: FromHTMLResource) -> None:
         self._from_html = from_html
 
         self.create = to_streamed_response_wrapper(
@@ -156,8 +156,8 @@ class FromHTMLWithStreamingResponse:
         )
 
 
-class AsyncFromHTMLWithStreamingResponse:
-    def __init__(self, from_html: AsyncFromHTML) -> None:
+class AsyncFromHTMLResourceWithStreamingResponse:
+    def __init__(self, from_html: AsyncFromHTMLResource) -> None:
         self._from_html = from_html
 
         self.create = async_to_streamed_response_wrapper(

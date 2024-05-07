@@ -4,77 +4,77 @@ from __future__ import annotations
 
 from ..._compat import cached_property
 from .embeddings import (
-    Embeddings,
-    AsyncEmbeddings,
-    EmbeddingsWithRawResponse,
-    AsyncEmbeddingsWithRawResponse,
-    EmbeddingsWithStreamingResponse,
-    AsyncEmbeddingsWithStreamingResponse,
+    EmbeddingsResource,
+    AsyncEmbeddingsResource,
+    EmbeddingsResourceWithRawResponse,
+    AsyncEmbeddingsResourceWithRawResponse,
+    EmbeddingsResourceWithStreamingResponse,
+    AsyncEmbeddingsResourceWithStreamingResponse,
 )
 from ..._resource import SyncAPIResource, AsyncAPIResource
 
-__all__ = ["Models", "AsyncModels"]
+__all__ = ["ModelsResource", "AsyncModelsResource"]
 
 
-class Models(SyncAPIResource):
+class ModelsResource(SyncAPIResource):
     @cached_property
-    def embeddings(self) -> Embeddings:
-        return Embeddings(self._client)
-
-    @cached_property
-    def with_raw_response(self) -> ModelsWithRawResponse:
-        return ModelsWithRawResponse(self)
+    def embeddings(self) -> EmbeddingsResource:
+        return EmbeddingsResource(self._client)
 
     @cached_property
-    def with_streaming_response(self) -> ModelsWithStreamingResponse:
-        return ModelsWithStreamingResponse(self)
-
-
-class AsyncModels(AsyncAPIResource):
-    @cached_property
-    def embeddings(self) -> AsyncEmbeddings:
-        return AsyncEmbeddings(self._client)
+    def with_raw_response(self) -> ModelsResourceWithRawResponse:
+        return ModelsResourceWithRawResponse(self)
 
     @cached_property
-    def with_raw_response(self) -> AsyncModelsWithRawResponse:
-        return AsyncModelsWithRawResponse(self)
+    def with_streaming_response(self) -> ModelsResourceWithStreamingResponse:
+        return ModelsResourceWithStreamingResponse(self)
+
+
+class AsyncModelsResource(AsyncAPIResource):
+    @cached_property
+    def embeddings(self) -> AsyncEmbeddingsResource:
+        return AsyncEmbeddingsResource(self._client)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncModelsWithStreamingResponse:
-        return AsyncModelsWithStreamingResponse(self)
+    def with_raw_response(self) -> AsyncModelsResourceWithRawResponse:
+        return AsyncModelsResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncModelsResourceWithStreamingResponse:
+        return AsyncModelsResourceWithStreamingResponse(self)
 
 
-class ModelsWithRawResponse:
-    def __init__(self, models: Models) -> None:
+class ModelsResourceWithRawResponse:
+    def __init__(self, models: ModelsResource) -> None:
         self._models = models
 
     @cached_property
-    def embeddings(self) -> EmbeddingsWithRawResponse:
-        return EmbeddingsWithRawResponse(self._models.embeddings)
+    def embeddings(self) -> EmbeddingsResourceWithRawResponse:
+        return EmbeddingsResourceWithRawResponse(self._models.embeddings)
 
 
-class AsyncModelsWithRawResponse:
-    def __init__(self, models: AsyncModels) -> None:
+class AsyncModelsResourceWithRawResponse:
+    def __init__(self, models: AsyncModelsResource) -> None:
         self._models = models
 
     @cached_property
-    def embeddings(self) -> AsyncEmbeddingsWithRawResponse:
-        return AsyncEmbeddingsWithRawResponse(self._models.embeddings)
+    def embeddings(self) -> AsyncEmbeddingsResourceWithRawResponse:
+        return AsyncEmbeddingsResourceWithRawResponse(self._models.embeddings)
 
 
-class ModelsWithStreamingResponse:
-    def __init__(self, models: Models) -> None:
+class ModelsResourceWithStreamingResponse:
+    def __init__(self, models: ModelsResource) -> None:
         self._models = models
 
     @cached_property
-    def embeddings(self) -> EmbeddingsWithStreamingResponse:
-        return EmbeddingsWithStreamingResponse(self._models.embeddings)
+    def embeddings(self) -> EmbeddingsResourceWithStreamingResponse:
+        return EmbeddingsResourceWithStreamingResponse(self._models.embeddings)
 
 
-class AsyncModelsWithStreamingResponse:
-    def __init__(self, models: AsyncModels) -> None:
+class AsyncModelsResourceWithStreamingResponse:
+    def __init__(self, models: AsyncModelsResource) -> None:
         self._models = models
 
     @cached_property
-    def embeddings(self) -> AsyncEmbeddingsWithStreamingResponse:
-        return AsyncEmbeddingsWithStreamingResponse(self._models.embeddings)
+    def embeddings(self) -> AsyncEmbeddingsResourceWithStreamingResponse:
+        return AsyncEmbeddingsResourceWithStreamingResponse(self._models.embeddings)

@@ -157,7 +157,7 @@ client = Maisa(
 )
 
 # Override per-request:
-client.with_options(timeout=5 * 1000).capabilities.summarize(
+client.with_options(timeout=5.0).capabilities.summarize(
     text="Example long text...",
 )
 ```
@@ -231,7 +231,7 @@ The context manager is required so that the response will reliably be closed.
 
 ### Making custom/undocumented requests
 
-This library is typed for convenient access the documented API.
+This library is typed for convenient access to the documented API.
 
 If you need to access undocumented endpoints, params, or response properties, the library can still be used.
 
