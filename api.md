@@ -60,18 +60,6 @@ Methods:
 
 - <code title="post /v1/file-interpreter/from-pdf">client.file_interpreter.from_pdf.<a href="./src/maisa/resources/file_interpreter/from_pdf.py">create</a>(\*\*<a href="src/maisa/types/file_interpreter/from_pdf_create_params.py">params</a>) -> <a href="./src/maisa/types/file_interpreter/from_pdf_create_response.py">object</a></code>
 
-## FromPdfScanned
-
-Types:
-
-```python
-from maisa.types.file_interpreter import FromPdfScannedCreateResponse
-```
-
-Methods:
-
-- <code title="post /v1/file-interpreter/from-pdf-scanned">client.file_interpreter.from_pdf_scanned.<a href="./src/maisa/resources/file_interpreter/from_pdf_scanned.py">create</a>(\*\*<a href="src/maisa/types/file_interpreter/from_pdf_scanned_create_params.py">params</a>) -> <a href="./src/maisa/types/file_interpreter/from_pdf_scanned_create_response.py">object</a></code>
-
 ## FromDocx
 
 Types:

@@ -26,17 +26,17 @@ from ..._base_client import (
 )
 from ...types.file_interpreter import from_docx_create_params
 
-__all__ = ["FromDocx", "AsyncFromDocx"]
+__all__ = ["FromDocxResource", "AsyncFromDocxResource"]
 
 
-class FromDocx(SyncAPIResource):
+class FromDocxResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> FromDocxWithRawResponse:
-        return FromDocxWithRawResponse(self)
+    def with_raw_response(self) -> FromDocxResourceWithRawResponse:
+        return FromDocxResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> FromDocxWithStreamingResponse:
-        return FromDocxWithStreamingResponse(self)
+    def with_streaming_response(self) -> FromDocxResourceWithStreamingResponse:
+        return FromDocxResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -79,14 +79,14 @@ class FromDocx(SyncAPIResource):
         )
 
 
-class AsyncFromDocx(AsyncAPIResource):
+class AsyncFromDocxResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncFromDocxWithRawResponse:
-        return AsyncFromDocxWithRawResponse(self)
+    def with_raw_response(self) -> AsyncFromDocxResourceWithRawResponse:
+        return AsyncFromDocxResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncFromDocxWithStreamingResponse:
-        return AsyncFromDocxWithStreamingResponse(self)
+    def with_streaming_response(self) -> AsyncFromDocxResourceWithStreamingResponse:
+        return AsyncFromDocxResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -129,8 +129,8 @@ class AsyncFromDocx(AsyncAPIResource):
         )
 
 
-class FromDocxWithRawResponse:
-    def __init__(self, from_docx: FromDocx) -> None:
+class FromDocxResourceWithRawResponse:
+    def __init__(self, from_docx: FromDocxResource) -> None:
         self._from_docx = from_docx
 
         self.create = to_raw_response_wrapper(
@@ -138,8 +138,8 @@ class FromDocxWithRawResponse:
         )
 
 
-class AsyncFromDocxWithRawResponse:
-    def __init__(self, from_docx: AsyncFromDocx) -> None:
+class AsyncFromDocxResourceWithRawResponse:
+    def __init__(self, from_docx: AsyncFromDocxResource) -> None:
         self._from_docx = from_docx
 
         self.create = async_to_raw_response_wrapper(
@@ -147,8 +147,8 @@ class AsyncFromDocxWithRawResponse:
         )
 
 
-class FromDocxWithStreamingResponse:
-    def __init__(self, from_docx: FromDocx) -> None:
+class FromDocxResourceWithStreamingResponse:
+    def __init__(self, from_docx: FromDocxResource) -> None:
         self._from_docx = from_docx
 
         self.create = to_streamed_response_wrapper(
@@ -156,8 +156,8 @@ class FromDocxWithStreamingResponse:
         )
 
 
-class AsyncFromDocxWithStreamingResponse:
-    def __init__(self, from_docx: AsyncFromDocx) -> None:
+class AsyncFromDocxResourceWithStreamingResponse:
+    def __init__(self, from_docx: AsyncFromDocxResource) -> None:
         self._from_docx = from_docx
 
         self.create = async_to_streamed_response_wrapper(

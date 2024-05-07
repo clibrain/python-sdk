@@ -26,17 +26,17 @@ from ..._base_client import (
 )
 from ...types.file_interpreter import from_pdf_create_params
 
-__all__ = ["FromPdf", "AsyncFromPdf"]
+__all__ = ["FromPdfResource", "AsyncFromPdfResource"]
 
 
-class FromPdf(SyncAPIResource):
+class FromPdfResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> FromPdfWithRawResponse:
-        return FromPdfWithRawResponse(self)
+    def with_raw_response(self) -> FromPdfResourceWithRawResponse:
+        return FromPdfResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> FromPdfWithStreamingResponse:
-        return FromPdfWithStreamingResponse(self)
+    def with_streaming_response(self) -> FromPdfResourceWithStreamingResponse:
+        return FromPdfResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -84,14 +84,14 @@ class FromPdf(SyncAPIResource):
         )
 
 
-class AsyncFromPdf(AsyncAPIResource):
+class AsyncFromPdfResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncFromPdfWithRawResponse:
-        return AsyncFromPdfWithRawResponse(self)
+    def with_raw_response(self) -> AsyncFromPdfResourceWithRawResponse:
+        return AsyncFromPdfResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncFromPdfWithStreamingResponse:
-        return AsyncFromPdfWithStreamingResponse(self)
+    def with_streaming_response(self) -> AsyncFromPdfResourceWithStreamingResponse:
+        return AsyncFromPdfResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -139,8 +139,8 @@ class AsyncFromPdf(AsyncAPIResource):
         )
 
 
-class FromPdfWithRawResponse:
-    def __init__(self, from_pdf: FromPdf) -> None:
+class FromPdfResourceWithRawResponse:
+    def __init__(self, from_pdf: FromPdfResource) -> None:
         self._from_pdf = from_pdf
 
         self.create = to_raw_response_wrapper(
@@ -148,8 +148,8 @@ class FromPdfWithRawResponse:
         )
 
 
-class AsyncFromPdfWithRawResponse:
-    def __init__(self, from_pdf: AsyncFromPdf) -> None:
+class AsyncFromPdfResourceWithRawResponse:
+    def __init__(self, from_pdf: AsyncFromPdfResource) -> None:
         self._from_pdf = from_pdf
 
         self.create = async_to_raw_response_wrapper(
@@ -157,8 +157,8 @@ class AsyncFromPdfWithRawResponse:
         )
 
 
-class FromPdfWithStreamingResponse:
-    def __init__(self, from_pdf: FromPdf) -> None:
+class FromPdfResourceWithStreamingResponse:
+    def __init__(self, from_pdf: FromPdfResource) -> None:
         self._from_pdf = from_pdf
 
         self.create = to_streamed_response_wrapper(
@@ -166,8 +166,8 @@ class FromPdfWithStreamingResponse:
         )
 
 
-class AsyncFromPdfWithStreamingResponse:
-    def __init__(self, from_pdf: AsyncFromPdf) -> None:
+class AsyncFromPdfResourceWithStreamingResponse:
+    def __init__(self, from_pdf: AsyncFromPdfResource) -> None:
         self._from_pdf = from_pdf
 
         self.create = async_to_streamed_response_wrapper(

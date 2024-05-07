@@ -46,10 +46,10 @@ __all__ = [
 
 
 class Maisa(SyncAPIClient):
-    capabilities: resources.Capabilities
-    models: resources.Models
-    kpu: resources.Kpu
-    file_interpreter: resources.FileInterpreter
+    capabilities: resources.CapabilitiesResource
+    models: resources.ModelsResource
+    kpu: resources.KpuResource
+    file_interpreter: resources.FileInterpreterResource
     with_raw_response: MaisaWithRawResponse
     with_streaming_response: MaisaWithStreamedResponse
 
@@ -107,10 +107,10 @@ class Maisa(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.capabilities = resources.Capabilities(self)
-        self.models = resources.Models(self)
-        self.kpu = resources.Kpu(self)
-        self.file_interpreter = resources.FileInterpreter(self)
+        self.capabilities = resources.CapabilitiesResource(self)
+        self.models = resources.ModelsResource(self)
+        self.kpu = resources.KpuResource(self)
+        self.file_interpreter = resources.FileInterpreterResource(self)
         self.with_raw_response = MaisaWithRawResponse(self)
         self.with_streaming_response = MaisaWithStreamedResponse(self)
 
@@ -220,10 +220,10 @@ class Maisa(SyncAPIClient):
 
 
 class AsyncMaisa(AsyncAPIClient):
-    capabilities: resources.AsyncCapabilities
-    models: resources.AsyncModels
-    kpu: resources.AsyncKpu
-    file_interpreter: resources.AsyncFileInterpreter
+    capabilities: resources.AsyncCapabilitiesResource
+    models: resources.AsyncModelsResource
+    kpu: resources.AsyncKpuResource
+    file_interpreter: resources.AsyncFileInterpreterResource
     with_raw_response: AsyncMaisaWithRawResponse
     with_streaming_response: AsyncMaisaWithStreamedResponse
 
@@ -281,10 +281,10 @@ class AsyncMaisa(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.capabilities = resources.AsyncCapabilities(self)
-        self.models = resources.AsyncModels(self)
-        self.kpu = resources.AsyncKpu(self)
-        self.file_interpreter = resources.AsyncFileInterpreter(self)
+        self.capabilities = resources.AsyncCapabilitiesResource(self)
+        self.models = resources.AsyncModelsResource(self)
+        self.kpu = resources.AsyncKpuResource(self)
+        self.file_interpreter = resources.AsyncFileInterpreterResource(self)
         self.with_raw_response = AsyncMaisaWithRawResponse(self)
         self.with_streaming_response = AsyncMaisaWithStreamedResponse(self)
 
@@ -395,34 +395,34 @@ class AsyncMaisa(AsyncAPIClient):
 
 class MaisaWithRawResponse:
     def __init__(self, client: Maisa) -> None:
-        self.capabilities = resources.CapabilitiesWithRawResponse(client.capabilities)
-        self.models = resources.ModelsWithRawResponse(client.models)
-        self.kpu = resources.KpuWithRawResponse(client.kpu)
-        self.file_interpreter = resources.FileInterpreterWithRawResponse(client.file_interpreter)
+        self.capabilities = resources.CapabilitiesResourceWithRawResponse(client.capabilities)
+        self.models = resources.ModelsResourceWithRawResponse(client.models)
+        self.kpu = resources.KpuResourceWithRawResponse(client.kpu)
+        self.file_interpreter = resources.FileInterpreterResourceWithRawResponse(client.file_interpreter)
 
 
 class AsyncMaisaWithRawResponse:
     def __init__(self, client: AsyncMaisa) -> None:
-        self.capabilities = resources.AsyncCapabilitiesWithRawResponse(client.capabilities)
-        self.models = resources.AsyncModelsWithRawResponse(client.models)
-        self.kpu = resources.AsyncKpuWithRawResponse(client.kpu)
-        self.file_interpreter = resources.AsyncFileInterpreterWithRawResponse(client.file_interpreter)
+        self.capabilities = resources.AsyncCapabilitiesResourceWithRawResponse(client.capabilities)
+        self.models = resources.AsyncModelsResourceWithRawResponse(client.models)
+        self.kpu = resources.AsyncKpuResourceWithRawResponse(client.kpu)
+        self.file_interpreter = resources.AsyncFileInterpreterResourceWithRawResponse(client.file_interpreter)
 
 
 class MaisaWithStreamedResponse:
     def __init__(self, client: Maisa) -> None:
-        self.capabilities = resources.CapabilitiesWithStreamingResponse(client.capabilities)
-        self.models = resources.ModelsWithStreamingResponse(client.models)
-        self.kpu = resources.KpuWithStreamingResponse(client.kpu)
-        self.file_interpreter = resources.FileInterpreterWithStreamingResponse(client.file_interpreter)
+        self.capabilities = resources.CapabilitiesResourceWithStreamingResponse(client.capabilities)
+        self.models = resources.ModelsResourceWithStreamingResponse(client.models)
+        self.kpu = resources.KpuResourceWithStreamingResponse(client.kpu)
+        self.file_interpreter = resources.FileInterpreterResourceWithStreamingResponse(client.file_interpreter)
 
 
 class AsyncMaisaWithStreamedResponse:
     def __init__(self, client: AsyncMaisa) -> None:
-        self.capabilities = resources.AsyncCapabilitiesWithStreamingResponse(client.capabilities)
-        self.models = resources.AsyncModelsWithStreamingResponse(client.models)
-        self.kpu = resources.AsyncKpuWithStreamingResponse(client.kpu)
-        self.file_interpreter = resources.AsyncFileInterpreterWithStreamingResponse(client.file_interpreter)
+        self.capabilities = resources.AsyncCapabilitiesResourceWithStreamingResponse(client.capabilities)
+        self.models = resources.AsyncModelsResourceWithStreamingResponse(client.models)
+        self.kpu = resources.AsyncKpuResourceWithStreamingResponse(client.kpu)
+        self.file_interpreter = resources.AsyncFileInterpreterResourceWithStreamingResponse(client.file_interpreter)
 
 
 Client = Maisa
