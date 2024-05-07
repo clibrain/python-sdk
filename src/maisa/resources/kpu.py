@@ -27,17 +27,17 @@ from .._base_client import (
     make_request_options,
 )
 
-__all__ = ["Kpu", "AsyncKpu"]
+__all__ = ["KpuResource", "AsyncKpuResource"]
 
 
-class Kpu(SyncAPIResource):
+class KpuResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> KpuWithRawResponse:
-        return KpuWithRawResponse(self)
+    def with_raw_response(self) -> KpuResourceWithRawResponse:
+        return KpuResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> KpuWithStreamingResponse:
-        return KpuWithStreamingResponse(self)
+    def with_streaming_response(self) -> KpuResourceWithStreamingResponse:
+        return KpuResourceWithStreamingResponse(self)
 
     def run(
         self,
@@ -127,14 +127,14 @@ class Kpu(SyncAPIResource):
         )
 
 
-class AsyncKpu(AsyncAPIResource):
+class AsyncKpuResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncKpuWithRawResponse:
-        return AsyncKpuWithRawResponse(self)
+    def with_raw_response(self) -> AsyncKpuResourceWithRawResponse:
+        return AsyncKpuResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncKpuWithStreamingResponse:
-        return AsyncKpuWithStreamingResponse(self)
+    def with_streaming_response(self) -> AsyncKpuResourceWithStreamingResponse:
+        return AsyncKpuResourceWithStreamingResponse(self)
 
     async def run(
         self,
@@ -224,8 +224,8 @@ class AsyncKpu(AsyncAPIResource):
         )
 
 
-class KpuWithRawResponse:
-    def __init__(self, kpu: Kpu) -> None:
+class KpuResourceWithRawResponse:
+    def __init__(self, kpu: KpuResource) -> None:
         self._kpu = kpu
 
         self.run = to_raw_response_wrapper(
@@ -233,8 +233,8 @@ class KpuWithRawResponse:
         )
 
 
-class AsyncKpuWithRawResponse:
-    def __init__(self, kpu: AsyncKpu) -> None:
+class AsyncKpuResourceWithRawResponse:
+    def __init__(self, kpu: AsyncKpuResource) -> None:
         self._kpu = kpu
 
         self.run = async_to_raw_response_wrapper(
@@ -242,8 +242,8 @@ class AsyncKpuWithRawResponse:
         )
 
 
-class KpuWithStreamingResponse:
-    def __init__(self, kpu: Kpu) -> None:
+class KpuResourceWithStreamingResponse:
+    def __init__(self, kpu: KpuResource) -> None:
         self._kpu = kpu
 
         self.run = to_streamed_response_wrapper(
@@ -251,8 +251,8 @@ class KpuWithStreamingResponse:
         )
 
 
-class AsyncKpuWithStreamingResponse:
-    def __init__(self, kpu: AsyncKpu) -> None:
+class AsyncKpuResourceWithStreamingResponse:
+    def __init__(self, kpu: AsyncKpuResource) -> None:
         self._kpu = kpu
 
         self.run = async_to_streamed_response_wrapper(

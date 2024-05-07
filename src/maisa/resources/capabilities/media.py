@@ -25,20 +25,22 @@ from ..._response import (
 from ..._base_client import (
     make_request_options,
 )
-from ...types.shared import TextSummary, TextExtractor, TextComparator
 from ...types.capabilities import media_compare_params, media_extract_params, media_summarize_params
+from ...types.shared.text_summary import TextSummary
+from ...types.shared.text_extractor import TextExtractor
+from ...types.shared.text_comparator import TextComparator
 
-__all__ = ["Media", "AsyncMedia"]
+__all__ = ["MediaResource", "AsyncMediaResource"]
 
 
-class Media(SyncAPIResource):
+class MediaResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> MediaWithRawResponse:
-        return MediaWithRawResponse(self)
+    def with_raw_response(self) -> MediaResourceWithRawResponse:
+        return MediaResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> MediaWithStreamingResponse:
-        return MediaWithStreamingResponse(self)
+    def with_streaming_response(self) -> MediaResourceWithStreamingResponse:
+        return MediaResourceWithStreamingResponse(self)
 
     def compare(
         self,
@@ -311,14 +313,14 @@ class Media(SyncAPIResource):
         )
 
 
-class AsyncMedia(AsyncAPIResource):
+class AsyncMediaResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncMediaWithRawResponse:
-        return AsyncMediaWithRawResponse(self)
+    def with_raw_response(self) -> AsyncMediaResourceWithRawResponse:
+        return AsyncMediaResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncMediaWithStreamingResponse:
-        return AsyncMediaWithStreamingResponse(self)
+    def with_streaming_response(self) -> AsyncMediaResourceWithStreamingResponse:
+        return AsyncMediaResourceWithStreamingResponse(self)
 
     async def compare(
         self,
@@ -591,8 +593,8 @@ class AsyncMedia(AsyncAPIResource):
         )
 
 
-class MediaWithRawResponse:
-    def __init__(self, media: Media) -> None:
+class MediaResourceWithRawResponse:
+    def __init__(self, media: MediaResource) -> None:
         self._media = media
 
         self.compare = to_raw_response_wrapper(
@@ -606,8 +608,8 @@ class MediaWithRawResponse:
         )
 
 
-class AsyncMediaWithRawResponse:
-    def __init__(self, media: AsyncMedia) -> None:
+class AsyncMediaResourceWithRawResponse:
+    def __init__(self, media: AsyncMediaResource) -> None:
         self._media = media
 
         self.compare = async_to_raw_response_wrapper(
@@ -621,8 +623,8 @@ class AsyncMediaWithRawResponse:
         )
 
 
-class MediaWithStreamingResponse:
-    def __init__(self, media: Media) -> None:
+class MediaResourceWithStreamingResponse:
+    def __init__(self, media: MediaResource) -> None:
         self._media = media
 
         self.compare = to_streamed_response_wrapper(
@@ -636,8 +638,8 @@ class MediaWithStreamingResponse:
         )
 
 
-class AsyncMediaWithStreamingResponse:
-    def __init__(self, media: AsyncMedia) -> None:
+class AsyncMediaResourceWithStreamingResponse:
+    def __init__(self, media: AsyncMediaResource) -> None:
         self._media = media
 
         self.compare = async_to_streamed_response_wrapper(

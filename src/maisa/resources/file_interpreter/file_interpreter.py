@@ -3,238 +3,206 @@
 from __future__ import annotations
 
 from .from_pdf import (
-    FromPdf,
-    AsyncFromPdf,
-    FromPdfWithRawResponse,
-    AsyncFromPdfWithRawResponse,
-    FromPdfWithStreamingResponse,
-    AsyncFromPdfWithStreamingResponse,
+    FromPdfResource,
+    AsyncFromPdfResource,
+    FromPdfResourceWithRawResponse,
+    AsyncFromPdfResourceWithRawResponse,
+    FromPdfResourceWithStreamingResponse,
+    AsyncFromPdfResourceWithStreamingResponse,
 )
 from ..._compat import cached_property
 from .from_docx import (
-    FromDocx,
-    AsyncFromDocx,
-    FromDocxWithRawResponse,
-    AsyncFromDocxWithRawResponse,
-    FromDocxWithStreamingResponse,
-    AsyncFromDocxWithStreamingResponse,
+    FromDocxResource,
+    AsyncFromDocxResource,
+    FromDocxResourceWithRawResponse,
+    AsyncFromDocxResourceWithRawResponse,
+    FromDocxResourceWithStreamingResponse,
+    AsyncFromDocxResourceWithStreamingResponse,
 )
 from .from_html import (
-    FromHTML,
-    AsyncFromHTML,
-    FromHTMLWithRawResponse,
-    AsyncFromHTMLWithRawResponse,
-    FromHTMLWithStreamingResponse,
-    AsyncFromHTMLWithStreamingResponse,
+    FromHTMLResource,
+    AsyncFromHTMLResource,
+    FromHTMLResourceWithRawResponse,
+    AsyncFromHTMLResourceWithRawResponse,
+    FromHTMLResourceWithStreamingResponse,
+    AsyncFromHTMLResourceWithStreamingResponse,
 )
 from .from_audio import (
-    FromAudio,
-    AsyncFromAudio,
-    FromAudioWithRawResponse,
-    AsyncFromAudioWithRawResponse,
-    FromAudioWithStreamingResponse,
-    AsyncFromAudioWithStreamingResponse,
+    FromAudioResource,
+    AsyncFromAudioResource,
+    FromAudioResourceWithRawResponse,
+    AsyncFromAudioResourceWithRawResponse,
+    FromAudioResourceWithStreamingResponse,
+    AsyncFromAudioResourceWithStreamingResponse,
 )
 from .from_image import (
-    FromImage,
-    AsyncFromImage,
-    FromImageWithRawResponse,
-    AsyncFromImageWithRawResponse,
-    FromImageWithStreamingResponse,
-    AsyncFromImageWithStreamingResponse,
+    FromImageResource,
+    AsyncFromImageResource,
+    FromImageResourceWithRawResponse,
+    AsyncFromImageResourceWithRawResponse,
+    FromImageResourceWithStreamingResponse,
+    AsyncFromImageResourceWithStreamingResponse,
 )
 from ..._resource import SyncAPIResource, AsyncAPIResource
-from .from_pdf_scanned import (
-    FromPdfScanned,
-    AsyncFromPdfScanned,
-    FromPdfScannedWithRawResponse,
-    AsyncFromPdfScannedWithRawResponse,
-    FromPdfScannedWithStreamingResponse,
-    AsyncFromPdfScannedWithStreamingResponse,
-)
 
-__all__ = ["FileInterpreter", "AsyncFileInterpreter"]
+__all__ = ["FileInterpreterResource", "AsyncFileInterpreterResource"]
 
 
-class FileInterpreter(SyncAPIResource):
+class FileInterpreterResource(SyncAPIResource):
     @cached_property
-    def from_pdf(self) -> FromPdf:
-        return FromPdf(self._client)
+    def from_pdf(self) -> FromPdfResource:
+        return FromPdfResource(self._client)
 
     @cached_property
-    def from_pdf_scanned(self) -> FromPdfScanned:
-        return FromPdfScanned(self._client)
+    def from_docx(self) -> FromDocxResource:
+        return FromDocxResource(self._client)
 
     @cached_property
-    def from_docx(self) -> FromDocx:
-        return FromDocx(self._client)
+    def from_html(self) -> FromHTMLResource:
+        return FromHTMLResource(self._client)
 
     @cached_property
-    def from_html(self) -> FromHTML:
-        return FromHTML(self._client)
+    def from_image(self) -> FromImageResource:
+        return FromImageResource(self._client)
 
     @cached_property
-    def from_image(self) -> FromImage:
-        return FromImage(self._client)
+    def from_audio(self) -> FromAudioResource:
+        return FromAudioResource(self._client)
 
     @cached_property
-    def from_audio(self) -> FromAudio:
-        return FromAudio(self._client)
+    def with_raw_response(self) -> FileInterpreterResourceWithRawResponse:
+        return FileInterpreterResourceWithRawResponse(self)
 
     @cached_property
-    def with_raw_response(self) -> FileInterpreterWithRawResponse:
-        return FileInterpreterWithRawResponse(self)
+    def with_streaming_response(self) -> FileInterpreterResourceWithStreamingResponse:
+        return FileInterpreterResourceWithStreamingResponse(self)
+
+
+class AsyncFileInterpreterResource(AsyncAPIResource):
+    @cached_property
+    def from_pdf(self) -> AsyncFromPdfResource:
+        return AsyncFromPdfResource(self._client)
 
     @cached_property
-    def with_streaming_response(self) -> FileInterpreterWithStreamingResponse:
-        return FileInterpreterWithStreamingResponse(self)
-
-
-class AsyncFileInterpreter(AsyncAPIResource):
-    @cached_property
-    def from_pdf(self) -> AsyncFromPdf:
-        return AsyncFromPdf(self._client)
+    def from_docx(self) -> AsyncFromDocxResource:
+        return AsyncFromDocxResource(self._client)
 
     @cached_property
-    def from_pdf_scanned(self) -> AsyncFromPdfScanned:
-        return AsyncFromPdfScanned(self._client)
+    def from_html(self) -> AsyncFromHTMLResource:
+        return AsyncFromHTMLResource(self._client)
 
     @cached_property
-    def from_docx(self) -> AsyncFromDocx:
-        return AsyncFromDocx(self._client)
+    def from_image(self) -> AsyncFromImageResource:
+        return AsyncFromImageResource(self._client)
 
     @cached_property
-    def from_html(self) -> AsyncFromHTML:
-        return AsyncFromHTML(self._client)
+    def from_audio(self) -> AsyncFromAudioResource:
+        return AsyncFromAudioResource(self._client)
 
     @cached_property
-    def from_image(self) -> AsyncFromImage:
-        return AsyncFromImage(self._client)
+    def with_raw_response(self) -> AsyncFileInterpreterResourceWithRawResponse:
+        return AsyncFileInterpreterResourceWithRawResponse(self)
 
     @cached_property
-    def from_audio(self) -> AsyncFromAudio:
-        return AsyncFromAudio(self._client)
-
-    @cached_property
-    def with_raw_response(self) -> AsyncFileInterpreterWithRawResponse:
-        return AsyncFileInterpreterWithRawResponse(self)
-
-    @cached_property
-    def with_streaming_response(self) -> AsyncFileInterpreterWithStreamingResponse:
-        return AsyncFileInterpreterWithStreamingResponse(self)
+    def with_streaming_response(self) -> AsyncFileInterpreterResourceWithStreamingResponse:
+        return AsyncFileInterpreterResourceWithStreamingResponse(self)
 
 
-class FileInterpreterWithRawResponse:
-    def __init__(self, file_interpreter: FileInterpreter) -> None:
+class FileInterpreterResourceWithRawResponse:
+    def __init__(self, file_interpreter: FileInterpreterResource) -> None:
         self._file_interpreter = file_interpreter
 
     @cached_property
-    def from_pdf(self) -> FromPdfWithRawResponse:
-        return FromPdfWithRawResponse(self._file_interpreter.from_pdf)
+    def from_pdf(self) -> FromPdfResourceWithRawResponse:
+        return FromPdfResourceWithRawResponse(self._file_interpreter.from_pdf)
 
     @cached_property
-    def from_pdf_scanned(self) -> FromPdfScannedWithRawResponse:
-        return FromPdfScannedWithRawResponse(self._file_interpreter.from_pdf_scanned)
+    def from_docx(self) -> FromDocxResourceWithRawResponse:
+        return FromDocxResourceWithRawResponse(self._file_interpreter.from_docx)
 
     @cached_property
-    def from_docx(self) -> FromDocxWithRawResponse:
-        return FromDocxWithRawResponse(self._file_interpreter.from_docx)
+    def from_html(self) -> FromHTMLResourceWithRawResponse:
+        return FromHTMLResourceWithRawResponse(self._file_interpreter.from_html)
 
     @cached_property
-    def from_html(self) -> FromHTMLWithRawResponse:
-        return FromHTMLWithRawResponse(self._file_interpreter.from_html)
+    def from_image(self) -> FromImageResourceWithRawResponse:
+        return FromImageResourceWithRawResponse(self._file_interpreter.from_image)
 
     @cached_property
-    def from_image(self) -> FromImageWithRawResponse:
-        return FromImageWithRawResponse(self._file_interpreter.from_image)
-
-    @cached_property
-    def from_audio(self) -> FromAudioWithRawResponse:
-        return FromAudioWithRawResponse(self._file_interpreter.from_audio)
+    def from_audio(self) -> FromAudioResourceWithRawResponse:
+        return FromAudioResourceWithRawResponse(self._file_interpreter.from_audio)
 
 
-class AsyncFileInterpreterWithRawResponse:
-    def __init__(self, file_interpreter: AsyncFileInterpreter) -> None:
+class AsyncFileInterpreterResourceWithRawResponse:
+    def __init__(self, file_interpreter: AsyncFileInterpreterResource) -> None:
         self._file_interpreter = file_interpreter
 
     @cached_property
-    def from_pdf(self) -> AsyncFromPdfWithRawResponse:
-        return AsyncFromPdfWithRawResponse(self._file_interpreter.from_pdf)
+    def from_pdf(self) -> AsyncFromPdfResourceWithRawResponse:
+        return AsyncFromPdfResourceWithRawResponse(self._file_interpreter.from_pdf)
 
     @cached_property
-    def from_pdf_scanned(self) -> AsyncFromPdfScannedWithRawResponse:
-        return AsyncFromPdfScannedWithRawResponse(self._file_interpreter.from_pdf_scanned)
+    def from_docx(self) -> AsyncFromDocxResourceWithRawResponse:
+        return AsyncFromDocxResourceWithRawResponse(self._file_interpreter.from_docx)
 
     @cached_property
-    def from_docx(self) -> AsyncFromDocxWithRawResponse:
-        return AsyncFromDocxWithRawResponse(self._file_interpreter.from_docx)
+    def from_html(self) -> AsyncFromHTMLResourceWithRawResponse:
+        return AsyncFromHTMLResourceWithRawResponse(self._file_interpreter.from_html)
 
     @cached_property
-    def from_html(self) -> AsyncFromHTMLWithRawResponse:
-        return AsyncFromHTMLWithRawResponse(self._file_interpreter.from_html)
+    def from_image(self) -> AsyncFromImageResourceWithRawResponse:
+        return AsyncFromImageResourceWithRawResponse(self._file_interpreter.from_image)
 
     @cached_property
-    def from_image(self) -> AsyncFromImageWithRawResponse:
-        return AsyncFromImageWithRawResponse(self._file_interpreter.from_image)
-
-    @cached_property
-    def from_audio(self) -> AsyncFromAudioWithRawResponse:
-        return AsyncFromAudioWithRawResponse(self._file_interpreter.from_audio)
+    def from_audio(self) -> AsyncFromAudioResourceWithRawResponse:
+        return AsyncFromAudioResourceWithRawResponse(self._file_interpreter.from_audio)
 
 
-class FileInterpreterWithStreamingResponse:
-    def __init__(self, file_interpreter: FileInterpreter) -> None:
+class FileInterpreterResourceWithStreamingResponse:
+    def __init__(self, file_interpreter: FileInterpreterResource) -> None:
         self._file_interpreter = file_interpreter
 
     @cached_property
-    def from_pdf(self) -> FromPdfWithStreamingResponse:
-        return FromPdfWithStreamingResponse(self._file_interpreter.from_pdf)
+    def from_pdf(self) -> FromPdfResourceWithStreamingResponse:
+        return FromPdfResourceWithStreamingResponse(self._file_interpreter.from_pdf)
 
     @cached_property
-    def from_pdf_scanned(self) -> FromPdfScannedWithStreamingResponse:
-        return FromPdfScannedWithStreamingResponse(self._file_interpreter.from_pdf_scanned)
+    def from_docx(self) -> FromDocxResourceWithStreamingResponse:
+        return FromDocxResourceWithStreamingResponse(self._file_interpreter.from_docx)
 
     @cached_property
-    def from_docx(self) -> FromDocxWithStreamingResponse:
-        return FromDocxWithStreamingResponse(self._file_interpreter.from_docx)
+    def from_html(self) -> FromHTMLResourceWithStreamingResponse:
+        return FromHTMLResourceWithStreamingResponse(self._file_interpreter.from_html)
 
     @cached_property
-    def from_html(self) -> FromHTMLWithStreamingResponse:
-        return FromHTMLWithStreamingResponse(self._file_interpreter.from_html)
+    def from_image(self) -> FromImageResourceWithStreamingResponse:
+        return FromImageResourceWithStreamingResponse(self._file_interpreter.from_image)
 
     @cached_property
-    def from_image(self) -> FromImageWithStreamingResponse:
-        return FromImageWithStreamingResponse(self._file_interpreter.from_image)
-
-    @cached_property
-    def from_audio(self) -> FromAudioWithStreamingResponse:
-        return FromAudioWithStreamingResponse(self._file_interpreter.from_audio)
+    def from_audio(self) -> FromAudioResourceWithStreamingResponse:
+        return FromAudioResourceWithStreamingResponse(self._file_interpreter.from_audio)
 
 
-class AsyncFileInterpreterWithStreamingResponse:
-    def __init__(self, file_interpreter: AsyncFileInterpreter) -> None:
+class AsyncFileInterpreterResourceWithStreamingResponse:
+    def __init__(self, file_interpreter: AsyncFileInterpreterResource) -> None:
         self._file_interpreter = file_interpreter
 
     @cached_property
-    def from_pdf(self) -> AsyncFromPdfWithStreamingResponse:
-        return AsyncFromPdfWithStreamingResponse(self._file_interpreter.from_pdf)
+    def from_pdf(self) -> AsyncFromPdfResourceWithStreamingResponse:
+        return AsyncFromPdfResourceWithStreamingResponse(self._file_interpreter.from_pdf)
 
     @cached_property
-    def from_pdf_scanned(self) -> AsyncFromPdfScannedWithStreamingResponse:
-        return AsyncFromPdfScannedWithStreamingResponse(self._file_interpreter.from_pdf_scanned)
+    def from_docx(self) -> AsyncFromDocxResourceWithStreamingResponse:
+        return AsyncFromDocxResourceWithStreamingResponse(self._file_interpreter.from_docx)
 
     @cached_property
-    def from_docx(self) -> AsyncFromDocxWithStreamingResponse:
-        return AsyncFromDocxWithStreamingResponse(self._file_interpreter.from_docx)
+    def from_html(self) -> AsyncFromHTMLResourceWithStreamingResponse:
+        return AsyncFromHTMLResourceWithStreamingResponse(self._file_interpreter.from_html)
 
     @cached_property
-    def from_html(self) -> AsyncFromHTMLWithStreamingResponse:
-        return AsyncFromHTMLWithStreamingResponse(self._file_interpreter.from_html)
+    def from_image(self) -> AsyncFromImageResourceWithStreamingResponse:
+        return AsyncFromImageResourceWithStreamingResponse(self._file_interpreter.from_image)
 
     @cached_property
-    def from_image(self) -> AsyncFromImageWithStreamingResponse:
-        return AsyncFromImageWithStreamingResponse(self._file_interpreter.from_image)
-
-    @cached_property
-    def from_audio(self) -> AsyncFromAudioWithStreamingResponse:
-        return AsyncFromAudioWithStreamingResponse(self._file_interpreter.from_audio)
+    def from_audio(self) -> AsyncFromAudioResourceWithStreamingResponse:
+        return AsyncFromAudioResourceWithStreamingResponse(self._file_interpreter.from_audio)

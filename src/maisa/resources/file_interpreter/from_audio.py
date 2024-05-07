@@ -26,17 +26,17 @@ from ..._base_client import (
 )
 from ...types.file_interpreter import from_audio_create_params
 
-__all__ = ["FromAudio", "AsyncFromAudio"]
+__all__ = ["FromAudioResource", "AsyncFromAudioResource"]
 
 
-class FromAudio(SyncAPIResource):
+class FromAudioResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> FromAudioWithRawResponse:
-        return FromAudioWithRawResponse(self)
+    def with_raw_response(self) -> FromAudioResourceWithRawResponse:
+        return FromAudioResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> FromAudioWithStreamingResponse:
-        return FromAudioWithStreamingResponse(self)
+    def with_streaming_response(self) -> FromAudioResourceWithStreamingResponse:
+        return FromAudioResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -79,14 +79,14 @@ class FromAudio(SyncAPIResource):
         )
 
 
-class AsyncFromAudio(AsyncAPIResource):
+class AsyncFromAudioResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncFromAudioWithRawResponse:
-        return AsyncFromAudioWithRawResponse(self)
+    def with_raw_response(self) -> AsyncFromAudioResourceWithRawResponse:
+        return AsyncFromAudioResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncFromAudioWithStreamingResponse:
-        return AsyncFromAudioWithStreamingResponse(self)
+    def with_streaming_response(self) -> AsyncFromAudioResourceWithStreamingResponse:
+        return AsyncFromAudioResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -129,8 +129,8 @@ class AsyncFromAudio(AsyncAPIResource):
         )
 
 
-class FromAudioWithRawResponse:
-    def __init__(self, from_audio: FromAudio) -> None:
+class FromAudioResourceWithRawResponse:
+    def __init__(self, from_audio: FromAudioResource) -> None:
         self._from_audio = from_audio
 
         self.create = to_raw_response_wrapper(
@@ -138,8 +138,8 @@ class FromAudioWithRawResponse:
         )
 
 
-class AsyncFromAudioWithRawResponse:
-    def __init__(self, from_audio: AsyncFromAudio) -> None:
+class AsyncFromAudioResourceWithRawResponse:
+    def __init__(self, from_audio: AsyncFromAudioResource) -> None:
         self._from_audio = from_audio
 
         self.create = async_to_raw_response_wrapper(
@@ -147,8 +147,8 @@ class AsyncFromAudioWithRawResponse:
         )
 
 
-class FromAudioWithStreamingResponse:
-    def __init__(self, from_audio: FromAudio) -> None:
+class FromAudioResourceWithStreamingResponse:
+    def __init__(self, from_audio: FromAudioResource) -> None:
         self._from_audio = from_audio
 
         self.create = to_streamed_response_wrapper(
@@ -156,8 +156,8 @@ class FromAudioWithStreamingResponse:
         )
 
 
-class AsyncFromAudioWithStreamingResponse:
-    def __init__(self, from_audio: AsyncFromAudio) -> None:
+class AsyncFromAudioResourceWithStreamingResponse:
+    def __init__(self, from_audio: AsyncFromAudioResource) -> None:
         self._from_audio = from_audio
 
         self.create = async_to_streamed_response_wrapper(
