@@ -19,26 +19,26 @@ class TestKpu:
     @parametrize
     def test_method_run(self, client: Maisa) -> None:
         kpu = client.kpu.run(
-            query="string",
+            query="query",
         )
         assert_matches_type(object, kpu, path=["response"])
 
     @parametrize
     def test_method_run_with_all_params(self, client: Maisa) -> None:
         kpu = client.kpu.run(
-            query="string",
+            query="query",
             explain_steps=True,
             retries=1,
             file=[b"raw file contents", b"raw file contents", b"raw file contents"],
             reasoner_model="gpt-4-turbo",
-            reasoner_prompt="string",
+            reasoner_prompt="reasoner_prompt",
         )
         assert_matches_type(object, kpu, path=["response"])
 
     @parametrize
     def test_raw_response_run(self, client: Maisa) -> None:
         response = client.kpu.with_raw_response.run(
-            query="string",
+            query="query",
         )
 
         assert response.is_closed is True
@@ -49,7 +49,7 @@ class TestKpu:
     @parametrize
     def test_streaming_response_run(self, client: Maisa) -> None:
         with client.kpu.with_streaming_response.run(
-            query="string",
+            query="query",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -66,26 +66,26 @@ class TestAsyncKpu:
     @parametrize
     async def test_method_run(self, async_client: AsyncMaisa) -> None:
         kpu = await async_client.kpu.run(
-            query="string",
+            query="query",
         )
         assert_matches_type(object, kpu, path=["response"])
 
     @parametrize
     async def test_method_run_with_all_params(self, async_client: AsyncMaisa) -> None:
         kpu = await async_client.kpu.run(
-            query="string",
+            query="query",
             explain_steps=True,
             retries=1,
             file=[b"raw file contents", b"raw file contents", b"raw file contents"],
             reasoner_model="gpt-4-turbo",
-            reasoner_prompt="string",
+            reasoner_prompt="reasoner_prompt",
         )
         assert_matches_type(object, kpu, path=["response"])
 
     @parametrize
     async def test_raw_response_run(self, async_client: AsyncMaisa) -> None:
         response = await async_client.kpu.with_raw_response.run(
-            query="string",
+            query="query",
         )
 
         assert response.is_closed is True
@@ -96,7 +96,7 @@ class TestAsyncKpu:
     @parametrize
     async def test_streaming_response_run(self, async_client: AsyncMaisa) -> None:
         async with async_client.kpu.with_streaming_response.run(
-            query="string",
+            query="query",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

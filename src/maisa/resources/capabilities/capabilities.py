@@ -29,9 +29,7 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..._base_client import (
-    make_request_options,
-)
+from ..._base_client import make_request_options
 from ...types.shared.text_summary import TextSummary
 from ...types.shared.text_extractor import TextExtractor
 from ...types.shared.text_comparator import TextComparator
@@ -46,10 +44,21 @@ class CapabilitiesResource(SyncAPIResource):
 
     @cached_property
     def with_raw_response(self) -> CapabilitiesResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/maisaai/python-sdk#accessing-raw-response-data-eg-headers
+        """
         return CapabilitiesResourceWithRawResponse(self)
 
     @cached_property
     def with_streaming_response(self) -> CapabilitiesResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/maisaai/python-sdk#with_streaming_response
+        """
         return CapabilitiesResourceWithStreamingResponse(self)
 
     def compare(
@@ -224,10 +233,21 @@ class AsyncCapabilitiesResource(AsyncAPIResource):
 
     @cached_property
     def with_raw_response(self) -> AsyncCapabilitiesResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/maisaai/python-sdk#accessing-raw-response-data-eg-headers
+        """
         return AsyncCapabilitiesResourceWithRawResponse(self)
 
     @cached_property
     def with_streaming_response(self) -> AsyncCapabilitiesResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/maisaai/python-sdk#with_streaming_response
+        """
         return AsyncCapabilitiesResourceWithStreamingResponse(self)
 
     async def compare(

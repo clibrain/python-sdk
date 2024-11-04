@@ -24,8 +24,8 @@ class TestCapabilities:
             text2="Sed ut perspiciatis unde omnis",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
         )
@@ -38,8 +38,8 @@ class TestCapabilities:
             text2="Sed ut perspiciatis unde omnis",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
             lang="en",
@@ -54,8 +54,8 @@ class TestCapabilities:
             text2="Sed ut perspiciatis unde omnis",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
         )
@@ -72,8 +72,8 @@ class TestCapabilities:
             text2="Sed ut perspiciatis unde omnis",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
         ) as response:
@@ -91,8 +91,8 @@ class TestCapabilities:
             text="Example long text...",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
         )
@@ -104,8 +104,8 @@ class TestCapabilities:
             text="Example long text...",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
             lang="en",
@@ -118,8 +118,8 @@ class TestCapabilities:
             text="Example long text...",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
         )
@@ -135,8 +135,8 @@ class TestCapabilities:
             text="Example long text...",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
         ) as response:
@@ -161,7 +161,7 @@ class TestCapabilities:
             text="Example long text...",
             format="paragraph",
             lang="en",
-            length="medium",
+            length="short",
             summary_hint="Example summary of the text...",
         )
         assert_matches_type(TextSummary, capability, path=["response"])
@@ -201,8 +201,8 @@ class TestAsyncCapabilities:
             text2="Sed ut perspiciatis unde omnis",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
         )
@@ -215,8 +215,8 @@ class TestAsyncCapabilities:
             text2="Sed ut perspiciatis unde omnis",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
             lang="en",
@@ -231,8 +231,8 @@ class TestAsyncCapabilities:
             text2="Sed ut perspiciatis unde omnis",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
         )
@@ -249,8 +249,8 @@ class TestAsyncCapabilities:
             text2="Sed ut perspiciatis unde omnis",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
         ) as response:
@@ -268,8 +268,8 @@ class TestAsyncCapabilities:
             text="Example long text...",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
         )
@@ -281,8 +281,8 @@ class TestAsyncCapabilities:
             text="Example long text...",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
             lang="en",
@@ -295,8 +295,8 @@ class TestAsyncCapabilities:
             text="Example long text...",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
         )
@@ -312,8 +312,8 @@ class TestAsyncCapabilities:
             text="Example long text...",
             variables={
                 "name": {
-                    "type": "string",
                     "description": "The name of the person.",
+                    "type": "string",
                 }
             },
         ) as response:
@@ -338,7 +338,7 @@ class TestAsyncCapabilities:
             text="Example long text...",
             format="paragraph",
             lang="en",
-            length="medium",
+            length="short",
             summary_hint="Example summary of the text...",
         )
         assert_matches_type(TextSummary, capability, path=["response"])
