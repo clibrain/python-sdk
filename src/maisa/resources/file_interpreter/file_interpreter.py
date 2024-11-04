@@ -71,10 +71,21 @@ class FileInterpreterResource(SyncAPIResource):
 
     @cached_property
     def with_raw_response(self) -> FileInterpreterResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/maisaai/python-sdk#accessing-raw-response-data-eg-headers
+        """
         return FileInterpreterResourceWithRawResponse(self)
 
     @cached_property
     def with_streaming_response(self) -> FileInterpreterResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/maisaai/python-sdk#with_streaming_response
+        """
         return FileInterpreterResourceWithStreamingResponse(self)
 
 
@@ -101,10 +112,21 @@ class AsyncFileInterpreterResource(AsyncAPIResource):
 
     @cached_property
     def with_raw_response(self) -> AsyncFileInterpreterResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/maisaai/python-sdk#accessing-raw-response-data-eg-headers
+        """
         return AsyncFileInterpreterResourceWithRawResponse(self)
 
     @cached_property
     def with_streaming_response(self) -> AsyncFileInterpreterResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/maisaai/python-sdk#with_streaming_response
+        """
         return AsyncFileInterpreterResourceWithStreamingResponse(self)
 
 

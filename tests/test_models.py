@@ -31,7 +31,7 @@ def test_directly_nested_model() -> None:
 
     # mismatched types
     m = NestedModel.construct(nested="hello!")
-    assert m.nested == "hello!"
+    assert cast(Any, m.nested) == "hello!"
 
 
 def test_optional_nested_model() -> None:
@@ -48,7 +48,7 @@ def test_optional_nested_model() -> None:
     # mismatched types
     m3 = NestedModel.construct(nested={"foo"})
     assert isinstance(cast(Any, m3.nested), set)
-    assert m3.nested == {"foo"}
+    assert cast(Any, m3.nested) == {"foo"}
 
 
 def test_list_nested_model() -> None:
@@ -245,7 +245,7 @@ def test_nested_union_of_mixed_types() -> None:
     assert m.foo is True
 
     m = Model.construct(foo="CARD_HOLDER")
-    assert m.foo is "CARD_HOLDER"
+    assert m.foo == "CARD_HOLDER"
 
     m = Model.construct(foo={"bar": False})
     assert isinstance(m.foo, Submodel1)
@@ -323,7 +323,7 @@ def test_list_of_unions() -> None:
     assert len(m.items) == 2
     assert isinstance(m.items[0], Submodel1)
     assert m.items[0].level == -1
-    assert m.items[1] == 156
+    assert cast(Any, m.items[1]) == 156
 
 
 def test_union_of_lists() -> None:
@@ -355,7 +355,7 @@ def test_union_of_lists() -> None:
     assert len(m.items) == 2
     assert isinstance(m.items[0], SubModel1)
     assert m.items[0].level == -1
-    assert m.items[1] == 156
+    assert cast(Any, m.items[1]) == 156
 
 
 def test_dict_of_union() -> None:
@@ -520,19 +520,15 @@ def test_to_dict() -> None:
     assert m3.to_dict(exclude_none=True) == {}
     assert m3.to_dict(exclude_defaults=True) == {}
 
-    if PYDANTIC_V2:
+    class Model2(BaseModel):
+        created_at: datetime
 
-        class Model2(BaseModel):
-            created_at: datetime
+    time_str = "2024-03-21T11:39:01.275859"
+    m4 = Model2.construct(created_at=time_str)
+    assert m4.to_dict(mode="python") == {"created_at": datetime.fromisoformat(time_str)}
+    assert m4.to_dict(mode="json") == {"created_at": time_str}
 
-        time_str = "2024-03-21T11:39:01.275859"
-        m4 = Model2.construct(created_at=time_str)
-        assert m4.to_dict(mode="python") == {"created_at": datetime.fromisoformat(time_str)}
-        assert m4.to_dict(mode="json") == {"created_at": time_str}
-    else:
-        with pytest.raises(ValueError, match="mode is only supported in Pydantic v2"):
-            m.to_dict(mode="json")
-
+    if not PYDANTIC_V2:
         with pytest.raises(ValueError, match="warnings is only supported in Pydantic v2"):
             m.to_dict(warnings=False)
 
@@ -558,9 +554,6 @@ def test_forwards_compat_model_dump_method() -> None:
     assert m3.model_dump(exclude_none=True) == {}
 
     if not PYDANTIC_V2:
-        with pytest.raises(ValueError, match="mode is only supported in Pydantic v2"):
-            m.model_dump(mode="json")
-
         with pytest.raises(ValueError, match="round_trip is only supported in Pydantic v2"):
             m.model_dump(round_trip=True)
 
