@@ -22,9 +22,7 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..._base_client import (
-    make_request_options,
-)
+from ..._base_client import make_request_options
 from ...types.capabilities import media_compare_params, media_extract_params, media_summarize_params
 from ...types.shared.text_summary import TextSummary
 from ...types.shared.text_extractor import TextExtractor
@@ -36,10 +34,21 @@ __all__ = ["MediaResource", "AsyncMediaResource"]
 class MediaResource(SyncAPIResource):
     @cached_property
     def with_raw_response(self) -> MediaResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/maisaai/python-sdk#accessing-raw-response-data-eg-headers
+        """
         return MediaResourceWithRawResponse(self)
 
     @cached_property
     def with_streaming_response(self) -> MediaResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/maisaai/python-sdk#with_streaming_response
+        """
         return MediaResourceWithStreamingResponse(self)
 
     def compare(
@@ -133,11 +142,10 @@ class MediaResource(SyncAPIResource):
             }
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["file1"], ["file2"]])
-        if files:
-            # It should be noted that the actual Content-Type header that will be
-            # sent to the server will contain a `boundary` parameter, e.g.
-            # multipart/form-data; boundary=---abc--
-            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        # It should be noted that the actual Content-Type header that will be
+        # sent to the server will contain a `boundary` parameter, e.g.
+        # multipart/form-data; boundary=---abc--
+        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             "/v1/capabilities/compare/media",
             body=maybe_transform(body, media_compare_params.MediaCompareParams),
@@ -233,11 +241,10 @@ class MediaResource(SyncAPIResource):
             }
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
-        if files:
-            # It should be noted that the actual Content-Type header that will be
-            # sent to the server will contain a `boundary` parameter, e.g.
-            # multipart/form-data; boundary=---abc--
-            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        # It should be noted that the actual Content-Type header that will be
+        # sent to the server will contain a `boundary` parameter, e.g.
+        # multipart/form-data; boundary=---abc--
+        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             "/v1/capabilities/extract/media",
             body=maybe_transform(body, media_extract_params.MediaExtractParams),
@@ -297,11 +304,10 @@ class MediaResource(SyncAPIResource):
             }
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
-        if files:
-            # It should be noted that the actual Content-Type header that will be
-            # sent to the server will contain a `boundary` parameter, e.g.
-            # multipart/form-data; boundary=---abc--
-            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        # It should be noted that the actual Content-Type header that will be
+        # sent to the server will contain a `boundary` parameter, e.g.
+        # multipart/form-data; boundary=---abc--
+        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             "/v1/capabilities/summarize/media",
             body=maybe_transform(body, media_summarize_params.MediaSummarizeParams),
@@ -316,10 +322,21 @@ class MediaResource(SyncAPIResource):
 class AsyncMediaResource(AsyncAPIResource):
     @cached_property
     def with_raw_response(self) -> AsyncMediaResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return the
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/maisaai/python-sdk#accessing-raw-response-data-eg-headers
+        """
         return AsyncMediaResourceWithRawResponse(self)
 
     @cached_property
     def with_streaming_response(self) -> AsyncMediaResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/maisaai/python-sdk#with_streaming_response
+        """
         return AsyncMediaResourceWithStreamingResponse(self)
 
     async def compare(
@@ -413,11 +430,10 @@ class AsyncMediaResource(AsyncAPIResource):
             }
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["file1"], ["file2"]])
-        if files:
-            # It should be noted that the actual Content-Type header that will be
-            # sent to the server will contain a `boundary` parameter, e.g.
-            # multipart/form-data; boundary=---abc--
-            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        # It should be noted that the actual Content-Type header that will be
+        # sent to the server will contain a `boundary` parameter, e.g.
+        # multipart/form-data; boundary=---abc--
+        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
             "/v1/capabilities/compare/media",
             body=await async_maybe_transform(body, media_compare_params.MediaCompareParams),
@@ -513,11 +529,10 @@ class AsyncMediaResource(AsyncAPIResource):
             }
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
-        if files:
-            # It should be noted that the actual Content-Type header that will be
-            # sent to the server will contain a `boundary` parameter, e.g.
-            # multipart/form-data; boundary=---abc--
-            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        # It should be noted that the actual Content-Type header that will be
+        # sent to the server will contain a `boundary` parameter, e.g.
+        # multipart/form-data; boundary=---abc--
+        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
             "/v1/capabilities/extract/media",
             body=await async_maybe_transform(body, media_extract_params.MediaExtractParams),
@@ -577,11 +592,10 @@ class AsyncMediaResource(AsyncAPIResource):
             }
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
-        if files:
-            # It should be noted that the actual Content-Type header that will be
-            # sent to the server will contain a `boundary` parameter, e.g.
-            # multipart/form-data; boundary=---abc--
-            extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
+        # It should be noted that the actual Content-Type header that will be
+        # sent to the server will contain a `boundary` parameter, e.g.
+        # multipart/form-data; boundary=---abc--
+        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
             "/v1/capabilities/summarize/media",
             body=await async_maybe_transform(body, media_summarize_params.MediaSummarizeParams),
