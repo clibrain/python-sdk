@@ -29,7 +29,7 @@ class TestKpu:
             query="query",
             explain_steps=True,
             retries=1,
-            file=[b"raw file contents", b"raw file contents", b"raw file contents"],
+            file=[b"raw file contents"],
             reasoner_model="gpt-4-turbo",
             reasoner_prompt="reasoner_prompt",
         )
@@ -76,7 +76,7 @@ class TestAsyncKpu:
             query="query",
             explain_steps=True,
             retries=1,
-            file=[b"raw file contents", b"raw file contents", b"raw file contents"],
+            file=[b"raw file contents"],
             reasoner_model="gpt-4-turbo",
             reasoner_prompt="reasoner_prompt",
         )
