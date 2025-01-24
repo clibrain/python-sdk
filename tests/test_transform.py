@@ -177,17 +177,32 @@ class DateDict(TypedDict, total=False):
     foo: Annotated[date, PropertyInfo(format="iso8601")]
 
 
+class DatetimeModel(BaseModel):
+    foo: datetime
+
+
+class DateModel(BaseModel):
+    foo: Optional[date]
+
+
 @parametrize
 @pytest.mark.asyncio
 async def test_iso8601_format(use_async: bool) -> None:
     dt = datetime.fromisoformat("2023-02-23T14:16:36.337692+00:00")
+    tz = "Z" if PYDANTIC_V2 else "+00:00"
     assert await transform({"foo": dt}, DatetimeDict, use_async) == {"foo": "2023-02-23T14:16:36.337692+00:00"}  # type: ignore[comparison-overlap]
+    assert await transform(DatetimeModel(foo=dt), Any, use_async) == {"foo": "2023-02-23T14:16:36.337692" + tz}  # type: ignore[comparison-overlap]
 
     dt = dt.replace(tzinfo=None)
     assert await transform({"foo": dt}, DatetimeDict, use_async) == {"foo": "2023-02-23T14:16:36.337692"}  # type: ignore[comparison-overlap]
+    assert await transform(DatetimeModel(foo=dt), Any, use_async) == {"foo": "2023-02-23T14:16:36.337692"}  # type: ignore[comparison-overlap]
 
     assert await transform({"foo": None}, DateDict, use_async) == {"foo": None}  # type: ignore[comparison-overlap]
+    assert await transform(DateModel(foo=None), Any, use_async) == {"foo": None}  # type: ignore
     assert await transform({"foo": date.fromisoformat("2023-02-23")}, DateDict, use_async) == {"foo": "2023-02-23"}  # type: ignore[comparison-overlap]
+    assert await transform(DateModel(foo=date.fromisoformat("2023-02-23")), DateDict, use_async) == {
+        "foo": "2023-02-23"
+    }  # type: ignore[comparison-overlap]
 
 
 @parametrize
@@ -260,20 +275,22 @@ class MyModel(BaseModel):
 @parametrize
 @pytest.mark.asyncio
 async def test_pydantic_model_to_dictionary(use_async: bool) -> None:
-    assert await transform(MyModel(foo="hi!"), Any, use_async) == {"foo": "hi!"}
-    assert await transform(MyModel.construct(foo="hi!"), Any, use_async) == {"foo": "hi!"}
+    assert cast(Any, await transform(MyModel(foo="hi!"), Any, use_async)) == {"foo": "hi!"}
+    assert cast(Any, await transform(MyModel.construct(foo="hi!"), Any, use_async)) == {"foo": "hi!"}
 
 
 @parametrize
 @pytest.mark.asyncio
 async def test_pydantic_empty_model(use_async: bool) -> None:
-    assert await transform(MyModel.construct(), Any, use_async) == {}
+    assert cast(Any, await transform(MyModel.construct(), Any, use_async)) == {}
 
 
 @parametrize
 @pytest.mark.asyncio
 async def test_pydantic_unknown_field(use_async: bool) -> None:
-    assert await transform(MyModel.construct(my_untyped_field=True), Any, use_async) == {"my_untyped_field": True}
+    assert cast(Any, await transform(MyModel.construct(my_untyped_field=True), Any, use_async)) == {
+        "my_untyped_field": True
+    }
 
 
 @parametrize
@@ -285,7 +302,7 @@ async def test_pydantic_mismatched_types(use_async: bool) -> None:
             params = await transform(model, Any, use_async)
     else:
         params = await transform(model, Any, use_async)
-    assert params == {"foo": True}
+    assert cast(Any, params) == {"foo": True}
 
 
 @parametrize
@@ -297,7 +314,7 @@ async def test_pydantic_mismatched_object_type(use_async: bool) -> None:
             params = await transform(model, Any, use_async)
     else:
         params = await transform(model, Any, use_async)
-    assert params == {"foo": {"hello": "world"}}
+    assert cast(Any, params) == {"foo": {"hello": "world"}}
 
 
 class ModelNestedObjects(BaseModel):
@@ -309,7 +326,7 @@ class ModelNestedObjects(BaseModel):
 async def test_pydantic_nested_objects(use_async: bool) -> None:
     model = ModelNestedObjects.construct(nested={"foo": "stainless"})
     assert isinstance(model.nested, MyModel)
-    assert await transform(model, Any, use_async) == {"nested": {"foo": "stainless"}}
+    assert cast(Any, await transform(model, Any, use_async)) == {"nested": {"foo": "stainless"}}
 
 
 class ModelWithDefaultField(BaseModel):
@@ -325,19 +342,19 @@ async def test_pydantic_default_field(use_async: bool) -> None:
     model = ModelWithDefaultField.construct()
     assert model.with_none_default is None
     assert model.with_str_default == "foo"
-    assert await transform(model, Any, use_async) == {}
+    assert cast(Any, await transform(model, Any, use_async)) == {}
 
     # should be included when the default value is explicitly given
     model = ModelWithDefaultField.construct(with_none_default=None, with_str_default="foo")
     assert model.with_none_default is None
     assert model.with_str_default == "foo"
-    assert await transform(model, Any, use_async) == {"with_none_default": None, "with_str_default": "foo"}
+    assert cast(Any, await transform(model, Any, use_async)) == {"with_none_default": None, "with_str_default": "foo"}
 
     # should be included when a non-default value is explicitly given
     model = ModelWithDefaultField.construct(with_none_default="bar", with_str_default="baz")
     assert model.with_none_default == "bar"
     assert model.with_str_default == "baz"
-    assert await transform(model, Any, use_async) == {"with_none_default": "bar", "with_str_default": "baz"}
+    assert cast(Any, await transform(model, Any, use_async)) == {"with_none_default": "bar", "with_str_default": "baz"}
 
 
 class TypedDictIterableUnion(TypedDict):

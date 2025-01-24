@@ -51,6 +51,7 @@ class PropertyInfo:
     alias: str | None
     format: PropertyFormat | None
     format_template: str | None
+    discriminator: str | None
 
     def __init__(
         self,
@@ -58,14 +59,16 @@ class PropertyInfo:
         alias: str | None = None,
         format: PropertyFormat | None = None,
         format_template: str | None = None,
+        discriminator: str | None = None,
     ) -> None:
         self.alias = alias
         self.format = format
         self.format_template = format_template
+        self.discriminator = discriminator
 
     @override
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(alias='{self.alias}', format={self.format}, format_template='{self.format_template}')"
+        return f"{self.__class__.__name__}(alias='{self.alias}', format={self.format}, format_template='{self.format_template}', discriminator='{self.discriminator}')"
 
 
 def maybe_transform(
@@ -170,6 +173,11 @@ def _transform_recursive(
         # Iterable[T]
         or (is_iterable_type(stripped_type) and is_iterable(data) and not isinstance(data, str))
     ):
+        # dicts are technically iterable, but it is an iterable on the keys of the dict and is not usually
+        # intended as an iterable, so we don't transform it.
+        if isinstance(data, dict):
+            return cast(object, data)
+
         inner_type = extract_type_arg(stripped_type, 0)
         return [_transform_recursive(d, annotation=annotation, inner_type=inner_type) for d in data]
 
@@ -183,7 +191,7 @@ def _transform_recursive(
         return data
 
     if isinstance(data, pydantic.BaseModel):
-        return model_dump(data, exclude_unset=True)
+        return model_dump(data, exclude_unset=True, mode="json")
 
     annotated_type = _get_annotated_type(annotation)
     if annotated_type is None:
@@ -308,6 +316,11 @@ async def _async_transform_recursive(
         # Iterable[T]
         or (is_iterable_type(stripped_type) and is_iterable(data) and not isinstance(data, str))
     ):
+        # dicts are technically iterable, but it is an iterable on the keys of the dict and is not usually
+        # intended as an iterable, so we don't transform it.
+        if isinstance(data, dict):
+            return cast(object, data)
+
         inner_type = extract_type_arg(stripped_type, 0)
         return [await _async_transform_recursive(d, annotation=annotation, inner_type=inner_type) for d in data]
 
@@ -321,7 +334,7 @@ async def _async_transform_recursive(
         return data
 
     if isinstance(data, pydantic.BaseModel):
-        return model_dump(data, exclude_unset=True)
+        return model_dump(data, exclude_unset=True, mode="json")
 
     annotated_type = _get_annotated_type(annotation)
     if annotated_type is None:
