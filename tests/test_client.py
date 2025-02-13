@@ -23,10 +23,12 @@ from pydantic import ValidationError
 
 from maisa import Maisa, AsyncMaisa, APIResponseValidationError
 from maisa._types import Omit
+from maisa._utils import maybe_transform
 from maisa._models import BaseModel, FinalRequestOptions
 from maisa._constants import RAW_RESPONSE_HEADER
 from maisa._exceptions import APIStatusError, APITimeoutError, APIResponseValidationError
 from maisa._base_client import DEFAULT_TIMEOUT, HTTPX_DEFAULT_TIMEOUT, BaseClient, make_request_options
+from maisa.types.capability_summarize_params import CapabilitySummarizeParams
 
 from .utils import update_env
 
@@ -700,7 +702,7 @@ class TestMaisa:
         with pytest.raises(APITimeoutError):
             self.client.post(
                 "/v1/capabilities/summarize",
-                body=cast(object, dict(text="Example long text...")),
+                body=cast(object, maybe_transform(dict(text="Example long text..."), CapabilitySummarizeParams)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -715,7 +717,7 @@ class TestMaisa:
         with pytest.raises(APIStatusError):
             self.client.post(
                 "/v1/capabilities/summarize",
-                body=cast(object, dict(text="Example long text...")),
+                body=cast(object, maybe_transform(dict(text="Example long text..."), CapabilitySummarizeParams)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1466,7 +1468,7 @@ class TestAsyncMaisa:
         with pytest.raises(APITimeoutError):
             await self.client.post(
                 "/v1/capabilities/summarize",
-                body=cast(object, dict(text="Example long text...")),
+                body=cast(object, maybe_transform(dict(text="Example long text..."), CapabilitySummarizeParams)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1481,7 +1483,7 @@ class TestAsyncMaisa:
         with pytest.raises(APIStatusError):
             await self.client.post(
                 "/v1/capabilities/summarize",
-                body=cast(object, dict(text="Example long text...")),
+                body=cast(object, maybe_transform(dict(text="Example long text..."), CapabilitySummarizeParams)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
