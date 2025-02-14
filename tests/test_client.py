@@ -1,15 +1,20 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
 import gc
 import os
+import sys
 import json
+import time
 import asyncio
 import inspect
+import subprocess
 import tracemalloc
 from typing import Any, Union, cast
+from textwrap import dedent
 from unittest import mock
+from typing_extensions import Literal
 
 import httpx
 import pytest
@@ -17,11 +22,13 @@ from respx import MockRouter
 from pydantic import ValidationError
 
 from maisa import Maisa, AsyncMaisa, APIResponseValidationError
-from maisa._client import Maisa, AsyncMaisa
+from maisa._types import Omit
+from maisa._utils import maybe_transform
 from maisa._models import BaseModel, FinalRequestOptions
 from maisa._constants import RAW_RESPONSE_HEADER
 from maisa._exceptions import APIStatusError, APITimeoutError, APIResponseValidationError
 from maisa._base_client import DEFAULT_TIMEOUT, HTTPX_DEFAULT_TIMEOUT, BaseClient, make_request_options
+from maisa.types.capability_summarize_params import CapabilitySummarizeParams
 
 from .utils import update_env
 
@@ -334,11 +341,11 @@ class TestMaisa:
             FinalRequestOptions(
                 method="get",
                 url="/foo",
-                params={"foo": "baz", "query_param": "overriden"},
+                params={"foo": "baz", "query_param": "overridden"},
             )
         )
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"foo": "baz", "query_param": "overriden"}
+        assert dict(url.params) == {"foo": "baz", "query_param": "overridden"}
 
     def test_request_extra_json(self) -> None:
         request = self.client._build_request(
@@ -636,6 +643,10 @@ class TestMaisa:
 
         assert isinstance(exc.value.__cause__, ValidationError)
 
+    def test_client_max_retries_validation(self) -> None:
+        with pytest.raises(TypeError, match=r"max_retries cannot be None"):
+            Maisa(base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None))
+
     @pytest.mark.respx(base_url=base_url)
     def test_received_text_for_expected_json(self, respx_mock: MockRouter) -> None:
         class Model(BaseModel):
@@ -671,6 +682,7 @@ class TestMaisa:
             [3, "", 0.5],
             [2, "", 0.5 * 2.0],
             [1, "", 0.5 * 4.0],
+            [-1100, "", 8],  # test large number potentially overflowing
         ],
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
@@ -690,7 +702,7 @@ class TestMaisa:
         with pytest.raises(APITimeoutError):
             self.client.post(
                 "/v1/capabilities/summarize",
-                body=cast(object, dict(text="Example long text...")),
+                body=cast(object, maybe_transform(dict(text="Example long text..."), CapabilitySummarizeParams)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -705,12 +717,91 @@ class TestMaisa:
         with pytest.raises(APIStatusError):
             self.client.post(
                 "/v1/capabilities/summarize",
-                body=cast(object, dict(text="Example long text...")),
+                body=cast(object, maybe_transform(dict(text="Example long text..."), CapabilitySummarizeParams)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
 
         assert _get_open_connections(self.client) == 0
+
+    @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
+    @mock.patch("maisa._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @pytest.mark.respx(base_url=base_url)
+    @pytest.mark.parametrize("failure_mode", ["status", "exception"])
+    def test_retries_taken(
+        self,
+        client: Maisa,
+        failures_before_success: int,
+        failure_mode: Literal["status", "exception"],
+        respx_mock: MockRouter,
+    ) -> None:
+        client = client.with_options(max_retries=4)
+
+        nb_retries = 0
+
+        def retry_handler(_request: httpx.Request) -> httpx.Response:
+            nonlocal nb_retries
+            if nb_retries < failures_before_success:
+                nb_retries += 1
+                if failure_mode == "exception":
+                    raise RuntimeError("oops")
+                return httpx.Response(500)
+            return httpx.Response(200)
+
+        respx_mock.post("/v1/capabilities/summarize").mock(side_effect=retry_handler)
+
+        response = client.capabilities.with_raw_response.summarize(text="Example long text...")
+
+        assert response.retries_taken == failures_before_success
+        assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
+
+    @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
+    @mock.patch("maisa._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @pytest.mark.respx(base_url=base_url)
+    def test_omit_retry_count_header(self, client: Maisa, failures_before_success: int, respx_mock: MockRouter) -> None:
+        client = client.with_options(max_retries=4)
+
+        nb_retries = 0
+
+        def retry_handler(_request: httpx.Request) -> httpx.Response:
+            nonlocal nb_retries
+            if nb_retries < failures_before_success:
+                nb_retries += 1
+                return httpx.Response(500)
+            return httpx.Response(200)
+
+        respx_mock.post("/v1/capabilities/summarize").mock(side_effect=retry_handler)
+
+        response = client.capabilities.with_raw_response.summarize(
+            text="Example long text...", extra_headers={"x-stainless-retry-count": Omit()}
+        )
+
+        assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
+
+    @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
+    @mock.patch("maisa._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @pytest.mark.respx(base_url=base_url)
+    def test_overwrite_retry_count_header(
+        self, client: Maisa, failures_before_success: int, respx_mock: MockRouter
+    ) -> None:
+        client = client.with_options(max_retries=4)
+
+        nb_retries = 0
+
+        def retry_handler(_request: httpx.Request) -> httpx.Response:
+            nonlocal nb_retries
+            if nb_retries < failures_before_success:
+                nb_retries += 1
+                return httpx.Response(500)
+            return httpx.Response(200)
+
+        respx_mock.post("/v1/capabilities/summarize").mock(side_effect=retry_handler)
+
+        response = client.capabilities.with_raw_response.summarize(
+            text="Example long text...", extra_headers={"x-stainless-retry-count": "42"}
+        )
+
+        assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
 
 class TestAsyncMaisa:
@@ -1004,11 +1095,11 @@ class TestAsyncMaisa:
             FinalRequestOptions(
                 method="get",
                 url="/foo",
-                params={"foo": "baz", "query_param": "overriden"},
+                params={"foo": "baz", "query_param": "overridden"},
             )
         )
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"foo": "baz", "query_param": "overriden"}
+        assert dict(url.params) == {"foo": "baz", "query_param": "overridden"}
 
     def test_request_extra_json(self) -> None:
         request = self.client._build_request(
@@ -1314,6 +1405,12 @@ class TestAsyncMaisa:
 
         assert isinstance(exc.value.__cause__, ValidationError)
 
+    async def test_client_max_retries_validation(self) -> None:
+        with pytest.raises(TypeError, match=r"max_retries cannot be None"):
+            AsyncMaisa(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
+            )
+
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_received_text_for_expected_json(self, respx_mock: MockRouter) -> None:
@@ -1350,6 +1447,7 @@ class TestAsyncMaisa:
             [3, "", 0.5],
             [2, "", 0.5 * 2.0],
             [1, "", 0.5 * 4.0],
+            [-1100, "", 8],  # test large number potentially overflowing
         ],
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
@@ -1370,7 +1468,7 @@ class TestAsyncMaisa:
         with pytest.raises(APITimeoutError):
             await self.client.post(
                 "/v1/capabilities/summarize",
-                body=cast(object, dict(text="Example long text...")),
+                body=cast(object, maybe_transform(dict(text="Example long text..."), CapabilitySummarizeParams)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1385,9 +1483,138 @@ class TestAsyncMaisa:
         with pytest.raises(APIStatusError):
             await self.client.post(
                 "/v1/capabilities/summarize",
-                body=cast(object, dict(text="Example long text...")),
+                body=cast(object, maybe_transform(dict(text="Example long text..."), CapabilitySummarizeParams)),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
 
         assert _get_open_connections(self.client) == 0
+
+    @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
+    @mock.patch("maisa._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @pytest.mark.respx(base_url=base_url)
+    @pytest.mark.asyncio
+    @pytest.mark.parametrize("failure_mode", ["status", "exception"])
+    async def test_retries_taken(
+        self,
+        async_client: AsyncMaisa,
+        failures_before_success: int,
+        failure_mode: Literal["status", "exception"],
+        respx_mock: MockRouter,
+    ) -> None:
+        client = async_client.with_options(max_retries=4)
+
+        nb_retries = 0
+
+        def retry_handler(_request: httpx.Request) -> httpx.Response:
+            nonlocal nb_retries
+            if nb_retries < failures_before_success:
+                nb_retries += 1
+                if failure_mode == "exception":
+                    raise RuntimeError("oops")
+                return httpx.Response(500)
+            return httpx.Response(200)
+
+        respx_mock.post("/v1/capabilities/summarize").mock(side_effect=retry_handler)
+
+        response = await client.capabilities.with_raw_response.summarize(text="Example long text...")
+
+        assert response.retries_taken == failures_before_success
+        assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
+
+    @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
+    @mock.patch("maisa._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @pytest.mark.respx(base_url=base_url)
+    @pytest.mark.asyncio
+    async def test_omit_retry_count_header(
+        self, async_client: AsyncMaisa, failures_before_success: int, respx_mock: MockRouter
+    ) -> None:
+        client = async_client.with_options(max_retries=4)
+
+        nb_retries = 0
+
+        def retry_handler(_request: httpx.Request) -> httpx.Response:
+            nonlocal nb_retries
+            if nb_retries < failures_before_success:
+                nb_retries += 1
+                return httpx.Response(500)
+            return httpx.Response(200)
+
+        respx_mock.post("/v1/capabilities/summarize").mock(side_effect=retry_handler)
+
+        response = await client.capabilities.with_raw_response.summarize(
+            text="Example long text...", extra_headers={"x-stainless-retry-count": Omit()}
+        )
+
+        assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
+
+    @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
+    @mock.patch("maisa._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @pytest.mark.respx(base_url=base_url)
+    @pytest.mark.asyncio
+    async def test_overwrite_retry_count_header(
+        self, async_client: AsyncMaisa, failures_before_success: int, respx_mock: MockRouter
+    ) -> None:
+        client = async_client.with_options(max_retries=4)
+
+        nb_retries = 0
+
+        def retry_handler(_request: httpx.Request) -> httpx.Response:
+            nonlocal nb_retries
+            if nb_retries < failures_before_success:
+                nb_retries += 1
+                return httpx.Response(500)
+            return httpx.Response(200)
+
+        respx_mock.post("/v1/capabilities/summarize").mock(side_effect=retry_handler)
+
+        response = await client.capabilities.with_raw_response.summarize(
+            text="Example long text...", extra_headers={"x-stainless-retry-count": "42"}
+        )
+
+        assert response.http_request.headers.get("x-stainless-retry-count") == "42"
+
+    def test_get_platform(self) -> None:
+        # A previous implementation of asyncify could leave threads unterminated when
+        # used with nest_asyncio.
+        #
+        # Since nest_asyncio.apply() is global and cannot be un-applied, this
+        # test is run in a separate process to avoid affecting other tests.
+        test_code = dedent("""
+        import asyncio
+        import nest_asyncio
+        import threading
+
+        from maisa._utils import asyncify
+        from maisa._base_client import get_platform 
+
+        async def test_main() -> None:
+            result = await asyncify(get_platform)()
+            print(result)
+            for thread in threading.enumerate():
+                print(thread.name)
+
+        nest_asyncio.apply()
+        asyncio.run(test_main())
+        """)
+        with subprocess.Popen(
+            [sys.executable, "-c", test_code],
+            text=True,
+        ) as process:
+            timeout = 10  # seconds
+
+            start_time = time.monotonic()
+            while True:
+                return_code = process.poll()
+                if return_code is not None:
+                    if return_code != 0:
+                        raise AssertionError("calling get_platform using asyncify resulted in a non-zero exit code")
+
+                    # success
+                    break
+
+                if time.monotonic() - start_time > timeout:
+                    process.kill()
+                    raise AssertionError("calling get_platform using asyncify resulted in a hung process")
+
+                time.sleep(0.1)

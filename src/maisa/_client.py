@@ -1,4 +1,4 @@
-# File generated from our OpenAPI spec by Stainless.
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ from typing_extensions import Self, override
 
 import httpx
 
-from . import resources, _exceptions
+from . import _exceptions
 from ._qs import Querystring
 from ._types import (
     NOT_GIVEN,
@@ -24,6 +24,7 @@ from ._utils import (
     get_async_library,
 )
 from ._version import __version__
+from .resources import kpu
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import MaisaError, APIStatusError
 from ._base_client import (
@@ -31,26 +32,18 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from .resources.models import models
+from .resources.capabilities import capabilities
+from .resources.file_interpreter import file_interpreter
 
-__all__ = [
-    "Timeout",
-    "Transport",
-    "ProxiesTypes",
-    "RequestOptions",
-    "resources",
-    "Maisa",
-    "AsyncMaisa",
-    "Client",
-    "AsyncClient",
-]
+__all__ = ["Timeout", "Transport", "ProxiesTypes", "RequestOptions", "Maisa", "AsyncMaisa", "Client", "AsyncClient"]
 
 
 class Maisa(SyncAPIClient):
-    capabilities: resources.Capabilities
-    models: resources.Models
-    kpu: resources.Kpu
-    file_interpreter: resources.FileInterpreter
-    mainet: resources.Mainet
+    capabilities: capabilities.CapabilitiesResource
+    models: models.ModelsResource
+    kpu: kpu.KpuResource
+    file_interpreter: file_interpreter.FileInterpreterResource
     with_raw_response: MaisaWithRawResponse
     with_streaming_response: MaisaWithStreamedResponse
 
@@ -66,7 +59,9 @@ class Maisa(SyncAPIClient):
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
-        # Configure a custom httpx client. See the [httpx documentation](https://www.python-httpx.org/api/#client) for more details.
+        # Configure a custom httpx client.
+        # We provide a `DefaultHttpxClient` class that you can pass to retain the default values we use for `limits`, `timeout` & `follow_redirects`.
+        # See the [httpx documentation](https://www.python-httpx.org/api/#client) for more details.
         http_client: httpx.Client | None = None,
         # Enable or disable schema validation for data returned by the API.
         # When enabled an error APIResponseValidationError is raised
@@ -106,11 +101,10 @@ class Maisa(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.capabilities = resources.Capabilities(self)
-        self.models = resources.Models(self)
-        self.kpu = resources.Kpu(self)
-        self.file_interpreter = resources.FileInterpreter(self)
-        self.mainet = resources.Mainet(self)
+        self.capabilities = capabilities.CapabilitiesResource(self)
+        self.models = models.ModelsResource(self)
+        self.kpu = kpu.KpuResource(self)
+        self.file_interpreter = file_interpreter.FileInterpreterResource(self)
         self.with_raw_response = MaisaWithRawResponse(self)
         self.with_streaming_response = MaisaWithStreamedResponse(self)
 
@@ -220,11 +214,10 @@ class Maisa(SyncAPIClient):
 
 
 class AsyncMaisa(AsyncAPIClient):
-    capabilities: resources.AsyncCapabilities
-    models: resources.AsyncModels
-    kpu: resources.AsyncKpu
-    file_interpreter: resources.AsyncFileInterpreter
-    mainet: resources.AsyncMainet
+    capabilities: capabilities.AsyncCapabilitiesResource
+    models: models.AsyncModelsResource
+    kpu: kpu.AsyncKpuResource
+    file_interpreter: file_interpreter.AsyncFileInterpreterResource
     with_raw_response: AsyncMaisaWithRawResponse
     with_streaming_response: AsyncMaisaWithStreamedResponse
 
@@ -240,7 +233,9 @@ class AsyncMaisa(AsyncAPIClient):
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
         default_query: Mapping[str, object] | None = None,
-        # Configure a custom httpx client. See the [httpx documentation](https://www.python-httpx.org/api/#asyncclient) for more details.
+        # Configure a custom httpx client.
+        # We provide a `DefaultAsyncHttpxClient` class that you can pass to retain the default values we use for `limits`, `timeout` & `follow_redirects`.
+        # See the [httpx documentation](https://www.python-httpx.org/api/#asyncclient) for more details.
         http_client: httpx.AsyncClient | None = None,
         # Enable or disable schema validation for data returned by the API.
         # When enabled an error APIResponseValidationError is raised
@@ -280,11 +275,10 @@ class AsyncMaisa(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.capabilities = resources.AsyncCapabilities(self)
-        self.models = resources.AsyncModels(self)
-        self.kpu = resources.AsyncKpu(self)
-        self.file_interpreter = resources.AsyncFileInterpreter(self)
-        self.mainet = resources.AsyncMainet(self)
+        self.capabilities = capabilities.AsyncCapabilitiesResource(self)
+        self.models = models.AsyncModelsResource(self)
+        self.kpu = kpu.AsyncKpuResource(self)
+        self.file_interpreter = file_interpreter.AsyncFileInterpreterResource(self)
         self.with_raw_response = AsyncMaisaWithRawResponse(self)
         self.with_streaming_response = AsyncMaisaWithStreamedResponse(self)
 
@@ -395,38 +389,36 @@ class AsyncMaisa(AsyncAPIClient):
 
 class MaisaWithRawResponse:
     def __init__(self, client: Maisa) -> None:
-        self.capabilities = resources.CapabilitiesWithRawResponse(client.capabilities)
-        self.models = resources.ModelsWithRawResponse(client.models)
-        self.kpu = resources.KpuWithRawResponse(client.kpu)
-        self.file_interpreter = resources.FileInterpreterWithRawResponse(client.file_interpreter)
-        self.mainet = resources.MainetWithRawResponse(client.mainet)
+        self.capabilities = capabilities.CapabilitiesResourceWithRawResponse(client.capabilities)
+        self.models = models.ModelsResourceWithRawResponse(client.models)
+        self.kpu = kpu.KpuResourceWithRawResponse(client.kpu)
+        self.file_interpreter = file_interpreter.FileInterpreterResourceWithRawResponse(client.file_interpreter)
 
 
 class AsyncMaisaWithRawResponse:
     def __init__(self, client: AsyncMaisa) -> None:
-        self.capabilities = resources.AsyncCapabilitiesWithRawResponse(client.capabilities)
-        self.models = resources.AsyncModelsWithRawResponse(client.models)
-        self.kpu = resources.AsyncKpuWithRawResponse(client.kpu)
-        self.file_interpreter = resources.AsyncFileInterpreterWithRawResponse(client.file_interpreter)
-        self.mainet = resources.AsyncMainetWithRawResponse(client.mainet)
+        self.capabilities = capabilities.AsyncCapabilitiesResourceWithRawResponse(client.capabilities)
+        self.models = models.AsyncModelsResourceWithRawResponse(client.models)
+        self.kpu = kpu.AsyncKpuResourceWithRawResponse(client.kpu)
+        self.file_interpreter = file_interpreter.AsyncFileInterpreterResourceWithRawResponse(client.file_interpreter)
 
 
 class MaisaWithStreamedResponse:
     def __init__(self, client: Maisa) -> None:
-        self.capabilities = resources.CapabilitiesWithStreamingResponse(client.capabilities)
-        self.models = resources.ModelsWithStreamingResponse(client.models)
-        self.kpu = resources.KpuWithStreamingResponse(client.kpu)
-        self.file_interpreter = resources.FileInterpreterWithStreamingResponse(client.file_interpreter)
-        self.mainet = resources.MainetWithStreamingResponse(client.mainet)
+        self.capabilities = capabilities.CapabilitiesResourceWithStreamingResponse(client.capabilities)
+        self.models = models.ModelsResourceWithStreamingResponse(client.models)
+        self.kpu = kpu.KpuResourceWithStreamingResponse(client.kpu)
+        self.file_interpreter = file_interpreter.FileInterpreterResourceWithStreamingResponse(client.file_interpreter)
 
 
 class AsyncMaisaWithStreamedResponse:
     def __init__(self, client: AsyncMaisa) -> None:
-        self.capabilities = resources.AsyncCapabilitiesWithStreamingResponse(client.capabilities)
-        self.models = resources.AsyncModelsWithStreamingResponse(client.models)
-        self.kpu = resources.AsyncKpuWithStreamingResponse(client.kpu)
-        self.file_interpreter = resources.AsyncFileInterpreterWithStreamingResponse(client.file_interpreter)
-        self.mainet = resources.AsyncMainetWithStreamingResponse(client.mainet)
+        self.capabilities = capabilities.AsyncCapabilitiesResourceWithStreamingResponse(client.capabilities)
+        self.models = models.AsyncModelsResourceWithStreamingResponse(client.models)
+        self.kpu = kpu.AsyncKpuResourceWithStreamingResponse(client.kpu)
+        self.file_interpreter = file_interpreter.AsyncFileInterpreterResourceWithStreamingResponse(
+            client.file_interpreter
+        )
 
 
 Client = Maisa

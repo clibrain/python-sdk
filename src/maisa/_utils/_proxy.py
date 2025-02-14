@@ -10,7 +10,7 @@ T = TypeVar("T")
 class LazyProxy(Generic[T], ABC):
     """Implements data methods to pretend that an instance is another instance.
 
-    This includes forwarding attribute access and othe methods.
+    This includes forwarding attribute access and other methods.
     """
 
     # Note: we have to special case proxies that themselves return proxies
@@ -59,5 +59,4 @@ class LazyProxy(Generic[T], ABC):
         return cast(T, self)
 
     @abstractmethod
-    def __load__(self) -> T:
-        ...
+    def __load__(self) -> T: ...
